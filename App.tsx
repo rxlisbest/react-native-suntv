@@ -8,6 +8,7 @@ import {
   Button,
   ThemeProvider
 } from 'react-native-elements'
+import { Player } from 'video-react'
 
 export default function App() {
   return (
@@ -15,6 +16,11 @@ export default function App() {
       <Text>Open up App.tsx to start working on your app!</Text>
       <ThemeProvider>
         <Button title="Hey!" />
+        <Player
+          playsInline
+          poster="/assets/poster.png"
+          src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+        />
       </ThemeProvider>
     </View>
   );
