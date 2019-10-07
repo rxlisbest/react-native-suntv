@@ -4,33 +4,36 @@ import {
   Text,
   View
 } from 'react-native';
+import { connect } from "react-redux";
 import {
   Button,
   ThemeProvider
 } from 'react-native-elements'
-import { Player } from 'video-react'
+import Video from 'react-native-video'
+import { Header } from 'react-native-elements';
 
 export default function App() {
   return (
     <View style={styles.container}>
+      <Header
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{ text: '首页', style: { color: '#fff' } }}
+        rightComponent={{ icon: 'home', color: '#fff' }}/>
       <Text>Open up App.tsx to start working on your app!</Text>
       <ThemeProvider>
         <Button title="Hey!" />
-        <Player
-          playsInline
-          poster="/assets/poster.png"
-          src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-        />
       </ThemeProvider>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+// Later on in your styles..
+var styles = StyleSheet.create({
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
