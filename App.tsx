@@ -12,6 +12,9 @@ import {
 } from 'react-native-elements'
 import { Audio, Video } from 'expo-av';
 import { Header } from 'react-native-elements';
+import { ScreenOrientation } from 'expo'
+
+ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
 export default function App() {
   return (
@@ -22,14 +25,15 @@ export default function App() {
         rightComponent={{ icon: 'home', color: '#fff' }}/>
       <Text>Open up App.tsx to start working on your app!</Text>
       <Video
-        source={{ uri: 'http://vjs.zencdn.net/v/oceans.mp4' }}
+        source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
         rate={1.0}
         volume={1.0}
         isMuted={false}
         resizeMode="cover"
         shouldPlay
         isLooping
-        style={{ width: 300, height: 300 }}
+        style={styles.backgroundVideo}
+        fullscreen={true}
       />
       <ThemeProvider>
         <Button title="Hey!" />
