@@ -26,21 +26,21 @@ import {
   ScreenOrientation
 } from 'expo'
 
-import {
-  createAppContainer
-} from 'react-navigation';
-import {
-  createStackNavigator
-} from 'react-navigation-stack';
-
-// ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
-
 _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()
 }
 
 export default class IndexScreen extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  };
+
+  componentWillMount(){
+    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -63,7 +63,7 @@ export default class IndexScreen extends React.Component {
           useNativeControls={true} 
         />
         <ThemeProvider>
-          <Button title="Hey!" onPress={() => this.props.navigation.navigate('Index')}  />
+          <Button title="Hey!" onPress={() => this.props.navigation.navigate('View')}  />
         </ThemeProvider>
       </View>
     );

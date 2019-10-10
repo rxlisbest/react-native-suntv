@@ -26,9 +26,6 @@ import {
   ScreenOrientation
 } from 'expo'
 
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
 _handleVideoRef = component => {
@@ -36,7 +33,16 @@ _handleVideoRef = component => {
   playbackObject.presentFullscreenPlayer()
 }
 
-class ViewScreen extends React.Component {
+export default class ViewScreen extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  };
+
+  componentWillMount(){
+    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -59,7 +65,7 @@ class ViewScreen extends React.Component {
           useNativeControls={true} 
         />
         <ThemeProvider>
-          <Button title="Hey!" onPress={() => this.props.navigation.navigate('Details')} />
+          <Button title="Hey!" onPress={() => this.props.navigation.navigate('Index')} />
         </ThemeProvider>
       </View>
     );
@@ -77,20 +83,3 @@ var styles = StyleSheet.create({
     height: 200,
   },
 });
-
-class DetailsScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-      </View>
-    );
-  }
-}
-
-const ViewNavigator = createStackNavigator({
-  View: ViewScreen,
-  Details: DetailsScreen,
-});
-
-export default createAppContainer(ViewNavigator);

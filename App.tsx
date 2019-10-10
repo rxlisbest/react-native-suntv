@@ -11,13 +11,12 @@ import {
   ThemeProvider,
   Header
 } from 'react-native-elements'
-import ViewScreen from './components/view'
-import IndexScreen from './components/IndexScreen'
 
+import Router from './router/index'
 
 export default function App(props) {
   return (
-    <ViewScreen></ViewScreen>
+    <Router></Router>
   );
 }
 
