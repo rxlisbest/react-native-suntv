@@ -37,7 +37,7 @@ export default class IndexScreen extends React.Component {
     header: null
   };
 
-  componentWillMount(){
+  componentDitMount(){
     ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
   }
 

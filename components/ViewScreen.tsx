@@ -39,8 +39,8 @@ export default class ViewScreen extends React.Component {
     header: null
   };
 
-  componentWillMount(){
-    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+  componentDitMount(){
+    ScreenOrientation.lockAsync (ScreenOrientation.Orientation.LANDSCAPE_LEFT)
   }
 
   render() {

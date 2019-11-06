@@ -7,12 +7,14 @@ import {
 
 import ViewScreen from '../components/ViewScreen'
 import IndexScreen from '../components/IndexScreen'
+import LoginScreen from '../components/LoginScreen'
 
 const AppNavigator = createStackNavigator({
   View: ViewScreen,
   Index: IndexScreen,
+  Login: LoginScreen,
 }, {
-  initialRouteName: 'Index',
+  initialRouteName: 'Login',
 });
 
 export default createAppContainer(AppNavigator);
