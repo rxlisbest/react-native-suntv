@@ -10,6 +10,7 @@
   "dependencies": {
     "expo": "^35.0.0",
     "expo-av": "^7.0.1",
+    "expo-localization": "^7.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.10.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",

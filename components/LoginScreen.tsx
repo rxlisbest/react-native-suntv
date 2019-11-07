@@ -29,7 +29,6 @@ import {
   ScreenOrientation
 } from 'expo'
 import i18n from '../i18n'
-// console.log(i18n)
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 
@@ -129,7 +128,7 @@ export default class ViewScreen extends React.Component {
             />
             <View style={styles.register}>
               <Text style={styles.registerText}>
-                {/* {I18n.t('english')} */}
+                {i18n.t('english')}
               </Text>
             </View>
           </View>
