@@ -1,7 +1,10 @@
 export default {
-    english: '英文',
-    chinese: '中文',
-    changeToEnglish: '切换到英文',
-    changeToChinese: '切换到中文',
-    changeToSystem: '切换到系统语言',
+  login: {
+    cellphone: '手机号码',
+    captcha: '图形验证码',
+    sms: '短信验证码',
+    send: '发送',
+    submit: '登录',
+    register: '注册账号',
   }
+}

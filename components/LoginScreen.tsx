@@ -61,15 +61,16 @@ export default class ViewScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground
-          source={require('../assets/loginBg.jpg')} style={styles.containerBackground}
+        <View
+          style={styles.containerBackground}
+        // source={require('../assets/loginBg.jpg')} style={styles.containerBackground}
         // resizeMode="stretch"
         >
           <View
             style={styles.form}
           >
             <Input
-              placeholder='test'
+              placeholder={i18n.t('login.cellphone')}
               placeholderTextColor="#888"
               errorStyle={{ color: 'red' }}
               errorMessage=' '
@@ -83,7 +84,7 @@ export default class ViewScreen extends React.Component {
                 style={styles.captchaInput}
               >
                 <Input
-                  placeholder={this.state.placeholder}
+                  placeholder={i18n.t('login.captcha')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
                   errorMessage=' '
@@ -109,7 +110,7 @@ export default class ViewScreen extends React.Component {
                 style={styles.codeInput}
               >
                 <Input
-                  placeholder={this.state.placeholder}
+                  placeholder={i18n.t('login.sms')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
                   errorMessage=' '
@@ -117,18 +118,18 @@ export default class ViewScreen extends React.Component {
                 // leftIconContainerStyle={{ paddingLeft: 0, marginLeft: 0, marginRight: 10 }}
                 />
               </View>
-              <Button type="outline" buttonStyle={styles.codeButton} title="发送" onPress={() => this.props.navigation.navigate('Index')} />
+              <Button type="outline" buttonStyle={styles.codeButton} title={i18n.t('login.send')} onPress={() => this.props.navigation.navigate('Index')} />
             </View>
             <Button
               buttonStyle={styles.formButton}
-              title="Hey!"
+              title={i18n.t('login.submit')}
               titleStyle={styles.formButtonTitleStyle}
               loading={false} disabled={false}
               onPress={() => this.props.navigation.navigate('Index')}
             />
             <View style={styles.register}>
               <Text style={styles.registerText}>
-                {i18n.t('english')}
+                {i18n.t('login.register')}
               </Text>
             </View>
           </View>
@@ -137,7 +138,7 @@ export default class ViewScreen extends React.Component {
               SunTV © ruixinglong.net
             </Text>
           </View>
-        </ImageBackground>
+        </View>
       </View>
     );
   }
@@ -145,6 +146,7 @@ export default class ViewScreen extends React.Component {
 // Later on in your styles..
 var styles = StyleSheet.create({
   container: {
+    backgroundColor: 'rgb(240, 161, 168)',
     flex: 1,
   },
   containerBackground: {
@@ -194,7 +196,7 @@ var styles = StyleSheet.create({
   copyrightText: {
     alignSelf: "center",
     fontSize: 18,
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
   },
   register: {
     marginTop: 20,
