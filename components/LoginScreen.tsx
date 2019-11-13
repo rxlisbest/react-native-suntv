@@ -32,11 +32,11 @@ import {
 import i18n from '../i18n'
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
-console.log(process.env.API_KEY)
 import { create } from '../api/sms'
-create({ "cellphone": "18363857076", "captcha": 1 })
+let data = create({ "cellphone": "18363857076", "captcha": 1 }).then(data => {
+  console.log(data)
+})
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
-
 const _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()

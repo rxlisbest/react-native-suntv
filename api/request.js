@@ -1,21 +1,21 @@
+import Toast from 'react-native-root-toast'
+import i18n from '../i18n'
 let domain = process.env.API_DOMAIN
-console.log(domain)
 
 export async function post(url, data) {
   try {
-    console.log(domain + url)
-    let reponse = await fetch(domain + url, {
+    let response = await fetch(domain + url, {
       method: 'POST',
       headers: {
-        // 'Accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
-    }).then((reponse) => {
-      return reponse.json()
+    }).then((response) => {
+      return response.json()
     })
-    return reponse
+    return response
   } catch (error) {
-    console.log(error)
+    Toast.show(i18n.t('error.network'))
   }
 }
