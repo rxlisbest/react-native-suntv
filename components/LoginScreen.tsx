@@ -41,11 +41,14 @@ const _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()
 }
+const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
 
 export default class ViewScreen extends React.Component {
   state = {
-    placeholder: "测试输入框",
-    captchaImageUrl: "http://172.16.14.53:8080/captcha.jpg"
+    cellphone: '',
+    captcha: '',
+    code: '',
+    captchaImageUrl: process.env.API_DOMAIN + "captcha.jpg"
   }
 
   static navigationOptions = {
@@ -57,7 +60,7 @@ export default class ViewScreen extends React.Component {
   }
 
   reloadCaptchaImage() {
-    let captchaImageUrl = "http://172.16.14.53:8080/captcha.jpg" + "?r=" + Math.random()
+    let captchaImageUrl = process.env.API_DOMAIN + "captcha.jpg" + "?r=" + Math.random()
     this.setState({ "captchaImageUrl": captchaImageUrl })
   }
 
@@ -72,14 +75,19 @@ export default class ViewScreen extends React.Component {
           <View
             style={styles.form}
           >
-            <Input
-              placeholder={i18n.t('login.cellphone')}
-              placeholderTextColor="#888"
-              errorStyle={{ color: 'red' }}
-              errorMessage=' '
-            // leftIcon={{ type: 'font-awesome', name: 'mobile', size: 45 }}
-            // leftIconContainerStyle={{ paddingLeft: 2, marginLeft: 0, marginRight: 15 }}
-            />
+            <View
+              style={styles.cellphone}
+            >
+              <Input
+                placeholder={i18n.t('login.cellphone')}
+                placeholderTextColor="#888"
+                errorStyle={{ color: 'red' }}
+                onChangeText={(cellphone) => this.setState({ cellphone })}
+                value={this.state.cellphone}
+              // leftIcon={{ type: 'font-awesome', name: 'mobile', size: 45 }}
+              // leftIconContainerStyle={{ paddingLeft: 2, marginLeft: 0, marginRight: 15 }}
+              />
+            </View>
             <View
               style={styles.captcha}
             >
@@ -90,7 +98,8 @@ export default class ViewScreen extends React.Component {
                   placeholder={i18n.t('login.captcha')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
-                  errorMessage=' '
+                  onChangeText={(captcha) => this.setState({ captcha })}
+                  value={this.state.captcha}
                 // leftIcon={{ type: 'font-awesome', name: 'image', size: 25 }}
                 // leftIconContainerStyle={{ paddingLeft: 0, marginLeft: 0, marginRight: 10 }}
                 />
@@ -116,7 +125,8 @@ export default class ViewScreen extends React.Component {
                   placeholder={i18n.t('login.sms')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
-                  errorMessage=' '
+                  onChangeText={(code) => this.setState({ code })}
+                  value={this.state.code}
                 // leftIcon={{ type: 'font-awesome', name: 'envelope-o', size: 27 }}
                 // leftIconContainerStyle={{ paddingLeft: 0, marginLeft: 0, marginRight: 10 }}
                 />
@@ -159,8 +169,12 @@ var styles = StyleSheet.create({
     height: null,
     paddingTop: height / 4,
   },
+  cellphone: {
+    marginBottom: 20,
+  },
   captcha: {
     flexDirection: 'row',
+    marginBottom: 20,
   },
   captchaInput: {
     width: formWidth - 121
@@ -175,6 +189,7 @@ var styles = StyleSheet.create({
   },
   code: {
     flexDirection: 'row',
+    marginBottom: 20,
   },
   codeInput: {
     width: formWidth - 121,
