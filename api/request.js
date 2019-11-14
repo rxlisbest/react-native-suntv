@@ -11,10 +11,15 @@ export async function post(url, data) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
-    }).then((response) => {
-      return response.json()
     })
-    return response
+    
+    if (response.status.toString().search(/20[0-9]/) >= 0) {
+      return response.json()
+    } else {
+      let error = await response.json()
+      // Toast.show(error.message)
+      return Promise.reject(error)
+    }
   } catch (error) {
     Toast.show(i18n.t('error.network'))
   }

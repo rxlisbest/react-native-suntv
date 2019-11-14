@@ -1,4 +1,7 @@
 export default {
+  error: {
+    network: '网络错误'
+  },
   login: {
     cellphone: '手机号码',
     captcha: '图形验证码',

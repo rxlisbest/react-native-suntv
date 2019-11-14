@@ -30,11 +30,17 @@ import {
   ScreenOrientation
 } from 'expo'
 import i18n from '../i18n'
+import Toast from 'react-native-root-toast'
+
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
 let data = create({ "cellphone": "18363857076", "captcha": 1 }).then(data => {
   console.log(data)
+}).catch(error => {
+  Toast.show(error.message, {
+    position: Toast.positions.CENTER
+  })
 })
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 const _handleVideoRef = component => {
@@ -62,6 +68,12 @@ export default class ViewScreen extends React.Component {
   reloadCaptchaImage() {
     let captchaImageUrl = process.env.API_DOMAIN + "captcha.jpg" + "?r=" + Math.random()
     this.setState({ "captchaImageUrl": captchaImageUrl })
+  }
+
+  onSubmitForm() {
+    Toast.show(i18n.t('error.network'), {
+      position: Toast.positions.CENTER
+    })
   }
 
   render() {
@@ -138,10 +150,13 @@ export default class ViewScreen extends React.Component {
               title={i18n.t('login.submit')}
               titleStyle={styles.formButtonTitleStyle}
               loading={false} disabled={false}
-              onPress={() => this.props.navigation.navigate('Index')}
+              onPress={() => this.onSubmitForm()}
             />
             <View style={styles.register}>
-              <Text style={styles.registerText}>
+              <Text
+                style={styles.registerText}
+                onPress={() => this.props.navigation.navigate('Index')}
+              >
                 {i18n.t('login.register')}
               </Text>
             </View>
