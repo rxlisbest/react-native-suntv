@@ -1,4 +1,13 @@
 export default {
+  messages: {
+    numbers: '必须是数字格式',
+    email: '必须是邮箱格式',
+    required: '是必需的',
+    date: '必须是日期格式({1}).',
+    minlength: '长度必须大于{1}.',
+    maxlength: '长度必须小于{1}.',
+    cellphone: '必须是手机号码格式',
+  },
   error: {
     network: '网络错误'
   },

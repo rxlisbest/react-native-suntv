@@ -32,6 +32,7 @@ import {
 import i18n from '../i18n'
 import Toast from 'react-native-root-toast'
 import ValidationComponent from 'react-native-form-validator'
+import FormComponent from './FormComponent'
 
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
@@ -50,7 +51,7 @@ const _handleVideoRef = component => {
 }
 const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
 
-export default class ViewScreen extends ValidationComponent {
+export default class ViewScreen extends FormComponent {
   state = {
     cellphone: '',
     captcha: '',
@@ -76,7 +77,7 @@ export default class ViewScreen extends ValidationComponent {
       position: Toast.positions.CENTER
     })
     this.validate({
-      cellphone: { minlength: 3, maxlength: 7, required: true }
+      cellphone: { required: true, cellphone: true }
     })
     this.getErrorsInField('cellphone').map(errorMessage => { console.log(errorMessage) })
   }
