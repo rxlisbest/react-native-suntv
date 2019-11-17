@@ -15,4 +15,10 @@ export default class FormComponent extends ValidationComponent {
   deviceLocale = 'i18n'
 
   rules = Object.assign(this.rules, rules)
+
+  getErrorsMessageInField(field, fieldName) {
+    return this.getErrorsInField(field  ).map(errorMessage => {
+      return fieldName + errorMessage
+    })
+  }
 }

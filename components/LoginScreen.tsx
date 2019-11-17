@@ -73,13 +73,23 @@ export default class ViewScreen extends FormComponent {
   }
 
   onSubmitForm() {
-    Toast.show(i18n.t('error.network'), {
-      position: Toast.positions.CENTER
-    })
+    // validate
     this.validate({
-      cellphone: { required: true, cellphone: true }
+      cellphone: { required: true, cellphone: true },
+      code: { required: true, numbers: true },
     })
-    this.getErrorsInField('cellphone').map(errorMessage => { console.log(errorMessage) })
+    let fields = [
+      { field: 'cellphone', fieldName: i18n.t('login.cellphone') },
+      { field: 'code', fieldName: i18n.t('login.code') },
+    ]
+    for (let v of fields) {
+      if (this.isFieldInError(v.field)) {
+        Toast.show(this.getErrorsMessageInField(v.field, v.fieldName)[0], {
+          position: Toast.positions.CENTER
+        })
+        return;
+      }
+    }
   }
 
   render() {
@@ -140,7 +150,7 @@ export default class ViewScreen extends FormComponent {
                 style={styles.codeInput}
               >
                 <Input
-                  placeholder={i18n.t('login.sms')}
+                  placeholder={i18n.t('login.code')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
                   onChangeText={(code) => this.setState({ code })}
