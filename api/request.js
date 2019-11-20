@@ -12,7 +12,6 @@ export async function post(url, data) {
       },
       body: JSON.stringify(data)
     })
-    
     if (response.status.toString().search(/20[0-9]/) >= 0) {
       return response.json()
     } else {

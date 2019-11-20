@@ -37,13 +37,7 @@ import FormComponent from './FormComponent'
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
-let data = create({ "cellphone": "18363857076", "captcha": 1 }).then(data => {
-  console.log(data)
-}).catch(error => {
-  Toast.show(error.message, {
-    position: Toast.positions.CENTER
-  })
-})
+
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 const _handleVideoRef = component => {
   const playbackObject = component;
@@ -70,6 +64,33 @@ export default class ViewScreen extends FormComponent {
   reloadCaptchaImage() {
     let captchaImageUrl = process.env.API_DOMAIN + "captcha.jpg" + "?r=" + Math.random()
     this.setState({ "captchaImageUrl": captchaImageUrl })
+  }
+
+  onSendSms() {
+    // validate
+    this.validate({
+      cellphone: { required: true, cellphone: true },
+      captcha: { required: true },
+    })
+    let fields = [
+      { field: 'cellphone', fieldName: i18n.t('login.cellphone') },
+      { field: 'captcha', fieldName: i18n.t('login.captcha') },
+    ]
+    for (let v of fields) {
+      if (this.isFieldInError(v.field)) {
+        Toast.show(this.getErrorsMessageInField(v.field, v.fieldName)[0], {
+          position: Toast.positions.CENTER
+        })
+        return;
+      }
+    }
+    return create({ "cellphone": this.state.cellphone, "captcha": this.state.captcha }).then(data => {
+      console.log(data)
+    }).catch(error => {
+      Toast.show(error.message, {
+        position: Toast.positions.CENTER
+      })
+    })
   }
 
   onSubmitForm() {
@@ -159,7 +180,12 @@ export default class ViewScreen extends FormComponent {
                 // leftIconContainerStyle={{ paddingLeft: 0, marginLeft: 0, marginRight: 10 }}
                 />
               </View>
-              <Button type="outline" buttonStyle={styles.codeButton} title={i18n.t('login.send')} onPress={() => this.props.navigation.navigate('Index')} />
+              <Button
+                type="outline"
+                buttonStyle={styles.codeButton}
+                title={i18n.t('login.send')}
+                onPress={() => this.onSendSms()}
+              />
             </View>
             <Button
               buttonStyle={styles.formButton}
