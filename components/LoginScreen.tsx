@@ -37,6 +37,7 @@ import FormComponent from './FormComponent'
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
+import { AsyncStorage } from 'react-native'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 const _handleVideoRef = component => {
@@ -47,10 +48,11 @@ const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.tes
 
 export default class ViewScreen extends FormComponent {
   state = {
+    client_id: '',
     cellphone: '',
     captcha: '',
     code: '',
-    captchaImageUrl: process.env.API_DOMAIN + "captcha.jpg"
+    captchaImageUrl: ''
   }
 
   static navigationOptions = {
@@ -58,11 +60,14 @@ export default class ViewScreen extends FormComponent {
   };
 
   componentDitMount() {
-    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+    // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+    this.reloadCaptchaImage()
   }
 
-  reloadCaptchaImage() {
-    let captchaImageUrl = process.env.API_DOMAIN + "captcha.jpg" + "?r=" + Math.random()
+  async reloadCaptchaImage() {
+    let clientId = await this.getClientId()
+    this.setState({ "client_id": clientId })
+    let captchaImageUrl = process.env.API_DOMAIN + "captcha.jpg" + "?r=" + Math.random() + '&client_id=' + clientId
     this.setState({ "captchaImageUrl": captchaImageUrl })
   }
 
@@ -84,7 +89,7 @@ export default class ViewScreen extends FormComponent {
         return;
       }
     }
-    return create({ "cellphone": this.state.cellphone, "captcha": this.state.captcha }).then(data => {
+    return create({ "cellphone": this.state.cellphone, "captcha": this.state.captcha, "client_id": this.state.client_id }).then(data => {
       console.log(data)
     }).catch(error => {
       Toast.show(error.message, {
@@ -110,6 +115,33 @@ export default class ViewScreen extends FormComponent {
         })
         return;
       }
+    }
+  }
+
+  async getClientId() {
+    try {
+      let value = await AsyncStorage.getItem('client_id');
+      if (value === null) {
+        // We have data!!
+        value = await this.setClientId()
+      }
+      return value
+    } catch (error) {
+      Toast.show(error, {
+        position: Toast.positions.CENTER
+      })
+    }
+  }
+
+  async setClientId() {
+    try {
+      let clientId = Math.random().toString(36).substr(3)
+      await AsyncStorage.setItem('client_id', clientId)
+      return clientId
+    } catch (error) {
+      Toast.show(error, {
+        position: Toast.positions.CENTER
+      })
     }
   }
 
