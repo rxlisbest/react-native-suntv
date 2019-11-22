@@ -37,6 +37,7 @@ import FormComponent from './FormComponent'
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
+import { usersLogin } from '../api/users'
 import { AsyncStorage } from 'react-native'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
@@ -116,6 +117,14 @@ export default class ViewScreen extends FormComponent {
         return;
       }
     }
+
+    return usersLogin({ "cellphone": this.state.cellphone, "code": this.state.code}).then(data => {
+      console.log(data)
+    }).catch(error => {
+      Toast.show(error.message, {
+        position: Toast.positions.CENTER
+      })
+    })
   }
 
   async getClientId() {
