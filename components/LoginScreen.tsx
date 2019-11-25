@@ -60,7 +60,7 @@ export default class ViewScreen extends FormComponent {
     header: null
   };
 
-  componentDitMount() {
+  componentWillMount() {
     // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
     this.reloadCaptchaImage()
   }
