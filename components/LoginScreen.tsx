@@ -118,13 +118,17 @@ export default class ViewScreen extends FormComponent {
       }
     }
 
-    return usersLogin({ "cellphone": this.state.cellphone, "code": this.state.code}).then(data => {
-      console.log(data)
-    }).catch(error => {
-      Toast.show(error.message, {
-        position: Toast.positions.CENTER
+    return usersLogin({ "cellphone": this.state.cellphone, "code": this.state.code }).then(data => {
+      this.storeToken(data.token).then(res => {
+        if (res === true) {
+          this.props.navigation.navigate('Index')
+        }
       })
-    })
+    }).catch(error => {
+        Toast.show(error.message, {
+          position: Toast.positions.CENTER
+        })
+      })
   }
 
   async getClientId() {
@@ -147,6 +151,17 @@ export default class ViewScreen extends FormComponent {
       let clientId = Math.random().toString(36).substr(3)
       await AsyncStorage.setItem('client_id', clientId)
       return clientId
+    } catch (error) {
+      Toast.show(error, {
+        position: Toast.positions.CENTER
+      })
+    }
+  }
+
+  async storeToken(token) {
+    try {
+      await AsyncStorage.setItem('token', token)
+      return true
     } catch (error) {
       Toast.show(error, {
         position: Toast.positions.CENTER
