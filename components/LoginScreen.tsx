@@ -39,6 +39,7 @@ const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
 import { usersLogin } from '../api/users'
 import { AsyncStorage } from 'react-native'
+import CountDownButtonComponent from './CountDownButtonComponent'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 const _handleVideoRef = component => {
@@ -236,7 +237,7 @@ export default class ViewScreen extends FormComponent {
                 // leftIconContainerStyle={{ paddingLeft: 0, marginLeft: 0, marginRight: 10 }}
                 />
               </View>
-              <Button
+              <CountDownButtonComponent
                 type="outline"
                 buttonStyle={styles.codeButton}
                 title={i18n.t('login.send')}
