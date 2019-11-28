@@ -14,7 +14,7 @@ const AppNavigator = createStackNavigator({
   Index: IndexScreen,
   Login: LoginScreen,
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Index',
 });
 
 export default createAppContainer(AppNavigator);
