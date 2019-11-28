@@ -18,6 +18,7 @@ export default class CountDownButtonComponent extends React.Component {
     buttonStyle: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     onPress: PropTypes.func.isRequired,
+    second: PropTypes.number.isRequired
   }
 
   static defaultProps = {
@@ -25,14 +26,30 @@ export default class CountDownButtonComponent extends React.Component {
     buttonStyle: styles.codeButton,
     title: '',
     onPress: () => { },
+    second: 10,
   }
 
   state = {
     title: this.props.title,
+    disabled: false
   }
 
   onPress() {
-    this.props.onPress()
+    let result = this.props.onPress()
+    if (result !== false) {
+      this.setState({ 'disabled': true })
+      let second = this.props.second
+      let countDown = setInterval(() => {
+        second -= 1
+        if (second < 0) {
+          clearInterval(countDown)
+          this.setState({ 'disabled': false })
+          this.setState({ 'title': this.props.title })
+        } else {
+          this.setState({ 'title': second })
+        }
+      }, 1000)
+    }
   }
 
   render() {
@@ -42,6 +59,7 @@ export default class CountDownButtonComponent extends React.Component {
         buttonStyle={this.props.buttonStyle}
         title={this.state.title}
         onPress={() => this.onPress()}
+        disabled={this.state.disabled}
       />
     )
   }

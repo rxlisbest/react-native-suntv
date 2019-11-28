@@ -73,9 +73,9 @@ export default class ViewScreen extends FormComponent {
     this.setState({ "captchaImageUrl": captchaImageUrl })
   }
 
-  onSendSms() {
+  onSendSms(obj) {
     // validate
-    this.validate({
+    obj.validate({
       cellphone: { required: true, cellphone: true },
       captcha: { required: true },
     })
@@ -84,14 +84,14 @@ export default class ViewScreen extends FormComponent {
       { field: 'captcha', fieldName: i18n.t('login.captcha') },
     ]
     for (let v of fields) {
-      if (this.isFieldInError(v.field)) {
-        Toast.show(this.getErrorsMessageInField(v.field, v.fieldName)[0], {
+      if (obj.isFieldInError(v.field)) {
+        Toast.show(obj.getErrorsMessageInField(v.field, v.fieldName)[0], {
           position: Toast.positions.CENTER
         })
-        return;
+        return false;
       }
     }
-    return create({ "cellphone": this.state.cellphone, "captcha": this.state.captcha, "client_id": this.state.client_id }).then(data => {
+    return create({ "cellphone": obj.state.cellphone, "captcha": obj.state.captcha, "client_id": obj.state.client_id }).then(data => {
       console.log(data)
     }).catch(error => {
       Toast.show(error.message, {
@@ -115,7 +115,7 @@ export default class ViewScreen extends FormComponent {
         Toast.show(this.getErrorsMessageInField(v.field, v.fieldName)[0], {
           position: Toast.positions.CENTER
         })
-        return;
+        return false;
       }
     }
 
@@ -126,10 +126,10 @@ export default class ViewScreen extends FormComponent {
         }
       })
     }).catch(error => {
-        Toast.show(error.message, {
-          position: Toast.positions.CENTER
-        })
+      Toast.show(error.message, {
+        position: Toast.positions.CENTER
       })
+    })
   }
 
   async getClientId() {
@@ -241,7 +241,7 @@ export default class ViewScreen extends FormComponent {
                 type="outline"
                 buttonStyle={styles.codeButton}
                 title={i18n.t('login.send')}
-                onPress={() => this.onSendSms()}
+                onPress={() => { return this.onSendSms(this) }}
               />
             </View>
             <Button
