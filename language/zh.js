@@ -18,5 +18,11 @@ export default {
     send: '发送',
     submit: '登录',
     register: '注册账号',
+  },
+  tabNavigator: {
+    index: '首页',
+    category: '分类',
+    discover: '发现',
+    user: '我的'
   }
 }

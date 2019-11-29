@@ -48,7 +48,7 @@ const _handleVideoRef = component => {
 }
 const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
 
-export default class ViewScreen extends FormComponent {
+export default class LoginScreen extends FormComponent {
   state = {
     client_id: '',
     cellphone: '',

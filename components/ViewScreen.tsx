@@ -48,7 +48,7 @@ export default class ViewScreen extends React.Component {
       <View style={styles.container}>
         <Header
           leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: '首页', style: { color: '#fff' } }}
+          centerComponent={{ text: '首页1', style: { color: '#fff' } }}
           rightComponent={{ icon: 'home', color: '#fff' }}/>
         <Text>Open up App.tsx to start working on your app!</Text>
         <Video

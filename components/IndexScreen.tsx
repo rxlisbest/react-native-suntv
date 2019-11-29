@@ -1,39 +1,29 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Image,
-  requireNativeComponent,
+  Dimensions,
   ScrollView
 } from 'react-native';
-import {
-  connect
-} from "react-redux";
 import {
   Button,
   ThemeProvider
 } from 'react-native-elements'
-import {
-  Audio,
-  Video
-} from 'expo-av';
-import {
-  Header
-} from 'react-native-elements';
+import { Video } from 'expo-av'
 import {
   ScreenOrientation
 } from 'expo'
 import { Tile } from 'react-native-elements'
-import TabNavigator from 'react-native-tab-navigator'
+import TabNavigatorComponent from './TabNavigatorComponent'
+import i18n from '../i18n'
 
 _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()
 }
+
+const { width, height } = Dimensions.get('window') // 页面宽度和高度
 
 export default class IndexScreen extends React.Component {
 
@@ -48,11 +38,11 @@ export default class IndexScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
+        {/* <Header
           leftComponent={{ icon: 'menu', color: '#fff' }}
           centerComponent={{ text: '首页', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'home', color: '#fff' }} />
-        <ScrollView>
+          rightComponent={{ icon: 'home', color: '#fff' }} /> */}
+        <ScrollView style={styles.scrollView}>
           <Video
             source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
             ref={this._handleVideoRef}
@@ -73,7 +63,7 @@ export default class IndexScreen extends React.Component {
             imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
             title="Lorem ipsum"
             icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-            contentContainerStyle={{ height: 70 }}
+            contentContainerStyle={{ height: 100 }}
           >
             <View
               style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
@@ -86,7 +76,7 @@ export default class IndexScreen extends React.Component {
             imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
             title="Lorem ipsum"
             icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-            contentContainerStyle={{ height: 70 }}
+            contentContainerStyle={{ height: 100 }}
           >
             <View
               style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
@@ -96,32 +86,16 @@ export default class IndexScreen extends React.Component {
             </View>
           </Tile>
         </ScrollView>
-        <TabNavigator>
-          <TabNavigator.Item
-            // selected={this.state.selectedTab === 'home'}
-            title="Home"
-            renderIcon={() => <Image source={require('../assets/icon.png')} />}
-            renderSelectedIcon={() => <Image source={require('../assets/icon.png')} />}
-            badgeText="1"
-            onPress={() => this.setState({ selectedTab: 'home' })}>
-            {/* {homeView} */}
-          </TabNavigator.Item>
-          <TabNavigator.Item
-            // selected={this.state.selectedTab === 'home'}
-            title="Home"
-            renderIcon={() => <Image style={{width:40,height:33}} source={require('../assets/icon.png')} />}
-            renderSelectedIcon={() => <Image style={{width:40,height:33}} source={require('../assets/icon.png')} />}
-            badgeText="1"
-            onPress={() => this.setState({ selectedTab: 'home' })}>
-            {/* {homeView} */}
-          </TabNavigator.Item>
-        </TabNavigator>
+        <TabNavigatorComponent currentPage={this} selectedTab='index'></TabNavigatorComponent>
       </View >
     );
   }
 }
 // Later on in your styles..
 var styles = StyleSheet.create({
+  container: {
+    height: height,
+  },
   backgroundVideo: {
     flex: 1,
     // position: 'absolute',
@@ -131,5 +105,5 @@ var styles = StyleSheet.create({
     // right: 0,
     width: 300,
     height: 200,
-  },
+  }
 });
