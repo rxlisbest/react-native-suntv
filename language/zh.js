@@ -24,5 +24,10 @@ export default {
     category: '分类',
     discover: '发现',
     user: '我的'
+  },
+  user: {
+    category: '我创建的分类',
+    channel: '我上传的视频',
+    family: '我创建的群组'
   }
 }

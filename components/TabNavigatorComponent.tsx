@@ -46,7 +46,7 @@ export default class TabNavigatorComponent extends React.Component {
             />}
             selectedTitleStyle={styles.selectedStyle}
             badgeText="1"
-            onPress={() => this.onPress('View')}
+            onPress={() => this.onPress('Index')}
           >
             <View >
               <Text>{i18n.t('tabNavigator.index')}</Text>
@@ -60,6 +60,7 @@ export default class TabNavigatorComponent extends React.Component {
               name='apps'
               color={styles.selectedStyle.color}
             />}
+            selectedTitleStyle={styles.selectedStyle}
             badgeText="1"
             onPress={() => this.onPress('View')}
           >
@@ -75,6 +76,7 @@ export default class TabNavigatorComponent extends React.Component {
               name='search'
               color={styles.selectedStyle.color}
             />}
+            selectedTitleStyle={styles.selectedStyle}
             badgeText="1"
             onPress={() => this.onPress('View')}
           >
@@ -90,8 +92,9 @@ export default class TabNavigatorComponent extends React.Component {
               name='person'
               color={styles.selectedStyle.color}
             />}
+            selectedTitleStyle={styles.selectedStyle}
             badgeText="1"
-            onPress={() => this.onPress('View')}
+            onPress={() => this.onPress('User')}
           >
             <View >
               <Text>{i18n.t('tabNavigator.user')}</Text>

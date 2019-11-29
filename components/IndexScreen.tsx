@@ -42,7 +42,7 @@ export default class IndexScreen extends React.Component {
           leftComponent={{ icon: 'menu', color: '#fff' }}
           centerComponent={{ text: '首页', style: { color: '#fff' } }}
           rightComponent={{ icon: 'home', color: '#fff' }} /> */}
-        <ScrollView style={styles.scrollView}>
+        <ScrollView>
           <Video
             source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
             ref={this._handleVideoRef}
