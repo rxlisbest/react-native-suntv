@@ -5,6 +5,7 @@ import TabNavigator from 'react-native-tab-navigator'
 import i18n from '../i18n'
 
 import { Icon } from 'react-native-elements'
+import LoginScreen from './LoginScreen'
 
 // Later on in your styles..
 var styles = StyleSheet.create({
@@ -48,7 +49,7 @@ export default class TabNavigatorComponent extends React.Component {
             badgeText="1"
             onPress={() => this.onPress('Index')}
           >
-            <View >
+            <View>
               <Text>{i18n.t('tabNavigator.index')}</Text>
             </View>
           </TabNavigator.Item>
@@ -64,7 +65,7 @@ export default class TabNavigatorComponent extends React.Component {
             badgeText="1"
             onPress={() => this.onPress('View')}
           >
-            <View >
+            <View>
               <Text>{i18n.t('tabNavigator.category')}</Text>
             </View>
           </TabNavigator.Item>
@@ -80,7 +81,7 @@ export default class TabNavigatorComponent extends React.Component {
             badgeText="1"
             onPress={() => this.onPress('View')}
           >
-            <View >
+            <View>
               <Text>{i18n.t('tabNavigator.discover')}</Text>
             </View>
           </TabNavigator.Item>
@@ -96,8 +97,8 @@ export default class TabNavigatorComponent extends React.Component {
             badgeText="1"
             onPress={() => this.onPress('User')}
           >
-            <View >
-              <Text>{i18n.t('tabNavigator.user')}</Text>
+            <View style={{height: 0}}>
+              <LoginScreen />
             </View>
           </TabNavigator.Item>
         </TabNavigator>

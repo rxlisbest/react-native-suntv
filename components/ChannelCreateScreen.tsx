@@ -9,7 +9,6 @@ import {
   Dimensions,
   requireNativeComponent,
   ScrollView,
-  NativeModules,
 } from 'react-native';
 import {
   connect
@@ -33,6 +32,9 @@ import {
 import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
 import screen from '../utils/screen'
+import { ImagePicker } from '@ant-design/react-native'
+
+import * as picker from "react-native-image-picker"
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
 _handleVideoRef = component => {
@@ -55,7 +57,7 @@ const list = [
   }
 ]
 
-export default class UserScreen extends React.Component {
+export default class ChannelCreateScreen extends React.Component {
 
   static navigationOptions = {
     header: null
@@ -79,6 +81,17 @@ export default class UserScreen extends React.Component {
           />
           <Text>123</Text>
         </View>
+        <ImagePicker
+          // files={files}
+          // selectable={files.length < 2}
+          // onChange={this.onChange}
+          // onImageClick={(index, files) => {
+          //   console.log(files[index].url)
+          // }}
+          // onAddImageClick={
+          //   this.choosePicker
+          // }
+        />
 
         <ScrollView>
           <View style={styles.list}>

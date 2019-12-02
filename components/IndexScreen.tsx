@@ -17,13 +17,12 @@ import {
 import { Tile } from 'react-native-elements'
 import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
+import screen from '../utils/screen'
 
 _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()
 }
-
-const { width, height } = Dimensions.get('window') // 页面宽度和高度
 
 export default class IndexScreen extends React.Component {
 
@@ -94,7 +93,7 @@ export default class IndexScreen extends React.Component {
 // Later on in your styles..
 var styles = StyleSheet.create({
   container: {
-    height: height,
+    height: screen.fullHeight,
   },
   backgroundVideo: {
     flex: 1,
