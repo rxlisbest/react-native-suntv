@@ -14,7 +14,6 @@ import {
   connect
 } from "react-redux";
 import {
-  Button,
   Avatar,
   ThemeProvider,
   ListItem
@@ -29,33 +28,16 @@ import {
 import {
   ScreenOrientation
 } from 'expo'
-import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
-import screen from '../utils/screen'
-import { ImagePicker } from '@ant-design/react-native'
+import LayoutComponent from './LayoutComponent'
+import ImagePickerComponent from './VideoPickerComponent'
+import { List, Picker, InputItem, Button, WhiteSpace } from '@ant-design/react-native';
 
-import * as picker from "react-native-image-picker"
-// ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
 _handleVideoRef = component => {
   const playbackObject = component;
   playbackObject.presentFullscreenPlayer()
 }
-
-const list = [
-  {
-    title: i18n.t('user.family'),
-    icon: 'people'
-  },
-  {
-    title: i18n.t('user.category'),
-    icon: 'apps'
-  },
-  {
-    title: i18n.t('user.channel'),
-    icon: 'videocam'
-  }
-]
 
 export default class ChannelCreateScreen extends React.Component {
 
@@ -69,58 +51,53 @@ export default class ChannelCreateScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.avatarContainer}>
-          <Avatar
-            rounded
-            size="large"
-            source={{
-              uri:
-                'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-            }}
-          />
-          <Text>123</Text>
-        </View>
-        <ImagePicker
-          // files={files}
-          // selectable={files.length < 2}
-          // onChange={this.onChange}
-          // onImageClick={(index, files) => {
-          //   console.log(files[index].url)
-          // }}
-          // onAddImageClick={
-          //   this.choosePicker
-          // }
-        />
-
+      <LayoutComponent currentPage={this} selectedTab='user'>
         <ScrollView>
-          <View style={styles.list}>
-            {
-              list.map((item, i) => (
-                <ListItem
-                  key={i}
-                  title={item.title}
-                  leftIcon={{ name: item.icon }}
-                  bottomDivider
-                  chevron
-                />
-              ))
-            }
-          </View>
 
+          <List renderHeader={'基本'}>
+            <InputItem
+              clear
+              placeholder="点击下方按钮该输入框会获取光标"
+              ref={el => (this.inputRef = el)}
+            >
+              标题
+            </InputItem>
+            <Picker
+              data={[]}
+              cols={2}
+            // value={}
+            // onChange={this.onChange}
+            >
+              <List.Item
+                arrow="horizontal"
+              // onPress={this.onPress}
+              >
+                省市选择(异步加载)
+              </List.Item>
+            </Picker>
+          </List>
+          <List renderHeader={'基本'}>
+            <ImagePickerComponent
+            // files={files}
+            // selectable={files.length < 2}
+            // onChange={this.onChange}
+            // onImageClick={(index, files) => {
+            //   console.log(files[index].url)
+            // }}
+            // onAddImageClick={
+            //   this.choosePicker
+            // }
+            />
+          </List>
+          <WhiteSpace />
+          <Button type="primary">primary</Button>
         </ScrollView>
-
-        <TabNavigatorComponent currentPage={this} selectedTab='user'></TabNavigatorComponent>
-      </View>
+      </LayoutComponent>
     );
   }
 }
 // Later on in your styles..
 var styles = StyleSheet.create({
-  container: {
-    height: screen.fullHeight,
-    backgroundColor: '#EDEDED',
-  },
   avatarContainer: {
     backgroundColor: 'rgb(240, 161, 168)',
     paddingTop: 40,

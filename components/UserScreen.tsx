@@ -1,38 +1,19 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
-  requireNativeComponent,
   ScrollView,
-  NativeModules,
 } from 'react-native';
 import {
-  connect
-} from "react-redux";
-import {
-  Button,
   Avatar,
-  ThemeProvider,
   ListItem
 } from 'react-native-elements'
 import {
-  Audio,
-  Video
-} from 'expo-av';
-import {
-  Header
-} from 'react-native-elements';
-import {
   ScreenOrientation
 } from 'expo'
-import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
-import screen from '../utils/screen'
+import LayoutComponent from './LayoutComponent'
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
 _handleVideoRef = component => {
@@ -67,7 +48,7 @@ export default class UserScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <LayoutComponent currentPage={this} selectedTab='user'>
         <View style={styles.avatarContainer}>
           <Avatar
             rounded
@@ -94,20 +75,13 @@ export default class UserScreen extends React.Component {
               ))
             }
           </View>
-
         </ScrollView>
-
-        <TabNavigatorComponent currentPage={this} selectedTab='user'></TabNavigatorComponent>
-      </View>
+      </LayoutComponent>
     );
   }
 }
 // Later on in your styles..
 var styles = StyleSheet.create({
-  container: {
-    height: screen.fullHeight,
-    backgroundColor: '#EDEDED',
-  },
   avatarContainer: {
     backgroundColor: 'rgb(240, 161, 168)',
     paddingTop: 40,

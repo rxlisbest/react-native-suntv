@@ -17,7 +17,7 @@ import {
 import { Tile } from 'react-native-elements'
 import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
-import screen from '../utils/screen'
+import ScreenUtils from '../utils/ScreenUtils'
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -93,7 +93,7 @@ export default class IndexScreen extends React.Component {
 // Later on in your styles..
 var styles = StyleSheet.create({
   container: {
-    height: screen.fullHeight,
+    height: ScreenUtils.fullHeight,
   },
   backgroundVideo: {
     flex: 1,
