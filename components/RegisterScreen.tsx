@@ -37,7 +37,7 @@ import FormComponent from './FormComponent'
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/sms'
-import { usersLogin } from '../api/users'
+import { usersCreate } from '../api/users'
 import { AsyncStorage } from 'react-native'
 import CountDownButtonComponent from './CountDownButtonComponent'
 
@@ -48,9 +48,10 @@ const _handleVideoRef = component => {
 }
 const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
 
-export default class LoginScreen extends FormComponent {
+export default class RegisterScreen extends FormComponent {
   state = {
     client_id: '',
+    name: '',
     cellphone: '',
     captcha: '',
     code: '',
@@ -80,8 +81,8 @@ export default class LoginScreen extends FormComponent {
       captcha: { required: true },
     })
     let fields = [
-      { field: 'cellphone', fieldName: i18n.t('login.cellphone') },
-      { field: 'captcha', fieldName: i18n.t('login.captcha') },
+      { field: 'cellphone', fieldName: i18n.t('register.cellphone') },
+      { field: 'captcha', fieldName: i18n.t('register.captcha') },
     ]
     for (let v of fields) {
       if (obj.isFieldInError(v.field)) {
@@ -103,12 +104,14 @@ export default class LoginScreen extends FormComponent {
   onSubmitForm() {
     // validate
     this.validate({
+      name: { required: true },
       cellphone: { required: true, cellphone: true },
       code: { required: true, numbers: true },
     })
     let fields = [
-      { field: 'cellphone', fieldName: i18n.t('login.cellphone') },
-      { field: 'code', fieldName: i18n.t('login.code') },
+      { field: 'name', fieldName: i18n.t('register.name') },
+      { field: 'cellphone', fieldName: i18n.t('register.cellphone') },
+      { field: 'code', fieldName: i18n.t('register.code') },
     ]
     for (let v of fields) {
       if (this.isFieldInError(v.field)) {
@@ -119,7 +122,7 @@ export default class LoginScreen extends FormComponent {
       }
     }
 
-    return usersLogin({ "cellphone": this.state.cellphone, "code": this.state.code }).then(data => {
+    return usersCreate({ "cellphone": this.state.cellphone, "code": this.state.code }).then(data => {
       this.storeToken(data.token).then(res => {
         if (res === true) {
           this.props.navigation.navigate('Index')
@@ -175,17 +178,30 @@ export default class LoginScreen extends FormComponent {
       <View style={styles.container}>
         <View
           style={styles.containerBackground}
-        // source={require('../assets/loginBg.jpg')} style={styles.containerBackground}
+        // source={require('../assets/registerBg.jpg')} style={styles.containerBackground}
         // resizeMode="stretch"
         >
           <View
             style={styles.form}
           >
+          <View
+            style={styles.name}
+          >
+            <Input
+              placeholder={i18n.t('register.name')}
+              placeholderTextColor="#888"
+              errorStyle={{ color: 'red' }}
+              onChangeText={(cellphone) => this.setState({ cellphone })}
+              value={this.state.cellphone}
+            // leftIcon={{ type: 'font-awesome', name: 'mobile', size: 45 }}
+            // leftIconContainerStyle={{ paddingLeft: 2, marginLeft: 0, marginRight: 15 }}
+            />
+          </View>
             <View
               style={styles.cellphone}
             >
               <Input
-                placeholder={i18n.t('login.cellphone')}
+                placeholder={i18n.t('register.cellphone')}
                 placeholderTextColor="#888"
                 errorStyle={{ color: 'red' }}
                 onChangeText={(cellphone) => this.setState({ cellphone })}
@@ -201,7 +217,7 @@ export default class LoginScreen extends FormComponent {
                 style={styles.captchaInput}
               >
                 <Input
-                  placeholder={i18n.t('login.captcha')}
+                  placeholder={i18n.t('register.captcha')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
                   onChangeText={(captcha) => this.setState({ captcha })}
@@ -228,7 +244,7 @@ export default class LoginScreen extends FormComponent {
                 style={styles.codeInput}
               >
                 <Input
-                  placeholder={i18n.t('login.code')}
+                  placeholder={i18n.t('register.code')}
                   placeholderTextColor="#888"
                   errorStyle={{ color: 'red' }}
                   onChangeText={(code) => this.setState({ code })}
@@ -240,23 +256,23 @@ export default class LoginScreen extends FormComponent {
               <CountDownButtonComponent
                 type="outline"
                 buttonStyle={styles.codeButton}
-                title={i18n.t('login.send')}
+                title={i18n.t('register.send')}
                 onPress={() => { return this.onSendSms(this) }}
               />
             </View>
             <Button
               buttonStyle={styles.formButton}
-              title={i18n.t('login.submit')}
+              title={i18n.t('register.submit')}
               titleStyle={styles.formButtonTitleStyle}
               loading={false} disabled={false}
               onPress={() => this.onSubmitForm()}
             />
-            <View style={styles.register}>
+            <View style={styles.login}>
               <Text
-                style={styles.registerText}
-                onPress={() => this.props.navigation.navigate('Register')}
+                style={styles.loginText}
+                onPress={() => this.props.navigation.navigate('Login')}
               >
-                {i18n.t('login.register')}
+                {i18n.t('register.login')}
               </Text>
             </View>
           </View>
@@ -282,6 +298,9 @@ var styles = StyleSheet.create({
     width: null,
     height: null,
     paddingTop: height / 4,
+  },
+  name: {
+    marginBottom: 20,
   },
   cellphone: {
     marginBottom: 20,
@@ -330,10 +349,10 @@ var styles = StyleSheet.create({
     fontSize: 18,
     // color: '#FFFFFF',
   },
-  register: {
+  login: {
     marginTop: 20,
   },
-  registerText: {
+  loginText: {
     fontSize: 16,
     alignSelf: "flex-end",
     marginRight: 10,

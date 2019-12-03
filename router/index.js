@@ -11,6 +11,7 @@ import LoginScreen from '../components/LoginScreen'
 import UserScreen from '../components/UserScreen'
 import ChannelCreateScreen from '../components/ChannelCreateScreen'
 import ChannelCategoryCreateScreen from '../components/ChannelCategoryCreateScreen'
+import RegisterScreen from '../components/RegisterScreen'
 
 const AppNavigator = createStackNavigator({
   View: ViewScreen,
@@ -18,9 +19,10 @@ const AppNavigator = createStackNavigator({
   Login: LoginScreen,
   User: UserScreen,
   ChannelCreate: ChannelCreateScreen,
-  ChannelCategoryCreate: ChannelCategoryCreateScreen
+  ChannelCategoryCreate: ChannelCategoryCreateScreen,
+  Register: RegisterScreen,
 }, {
-  initialRouteName: 'User',
+  initialRouteName: 'Login',
 });
 
 export default createAppContainer(AppNavigator);

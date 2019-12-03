@@ -33,5 +33,14 @@ export default {
     createChannel: '新建视频',
     createFamily: '新建群组',
     changeFamily: '切换群组',
-  }
+  },
+  register: {
+    name: '姓名',
+    cellphone: '手机号码',
+    captcha: '图形验证码',
+    code: '短信验证码',
+    send: '发送',
+    submit: '注册',
+    login: '已有账号，去登录',
+  },
 }
