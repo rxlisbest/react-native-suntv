@@ -19,17 +19,17 @@ export default class TabNavigatorComponent extends React.Component {
   //   super(props)
   // }
   static propProps = {
-    currentPage: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     selectedTab: PropTypes.string.isRequired
   }
 
   static defaultProps = {
-    currentPage: {},
+    navigation: {},
     selectedTab: 'index'
   }
 
-  onPress(screen) {
-    this.props.currentPage.props.navigation.navigate(screen)
+  onPress = (screen) => {
+    this.props.navigation.navigate(screen)
   }
 
   render() {

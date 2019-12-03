@@ -28,6 +28,10 @@ export default {
   user: {
     category: '我创建的分类',
     channel: '我上传的视频',
-    family: '我创建的群组'
+    family: '我创建的群组',
+    createCategory: '新建分类',
+    createChannel: '新建视频',
+    createFamily: '新建群组',
+    changeFamily: '切换群组',
   }
 }

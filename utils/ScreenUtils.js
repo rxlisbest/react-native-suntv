@@ -9,5 +9,6 @@ if (height / width > 1.8) {
 export default screen = {
     width: width,
     height: height,
-    fullHeight: fullHeight
+    fullHeight: fullHeight,
+    statusBarHeight: NativeModules.StatusBarManager.HEIGHT
 }

@@ -40,7 +40,7 @@ _handleVideoRef = component => {
   playbackObject.presentFullscreenPlayer()
 }
 
-export default class ChannelCreateScreen extends React.Component {
+export default class ChannelCategoryCreateScreen extends React.Component {
 
   static navigationOptions = {
     header: null
@@ -52,7 +52,7 @@ export default class ChannelCreateScreen extends React.Component {
 
   render() {
     return (
-      <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
+      <LayoutComponent selectedTab='user'>
         <ScrollView>
           <List renderHeader={'基本'} style={{ marginTop: ScreenUtils.statusBarHeight }}>
             <InputItem
@@ -76,20 +76,6 @@ export default class ChannelCreateScreen extends React.Component {
               </List.Item>
             </Picker>
           </List>
-          <List renderHeader={'基本'}>
-            <ImagePickerComponent
-            // files={files}
-            // selectable={files.length < 2}
-            // onChange={this.onChange}
-            // onImageClick={(index, files) => {
-            //   console.log(files[index].url)
-            // }}
-            // onAddImageClick={
-            //   this.choosePicker
-            // }
-            />
-          </List>
-          <WhiteSpace />
           <Button type="primary">primary</Button>
         </ScrollView>
       </LayoutComponent>

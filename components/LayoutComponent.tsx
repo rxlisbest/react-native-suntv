@@ -10,12 +10,12 @@ import PropTypes from 'prop-types'
 export default class LayoutComponent extends React.Component {
 
   static propProps = {
-    currentPage: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
     selectedTab: PropTypes.string.isRequired
   }
 
   static defaultProps = {
-    currentPage: {},
+    navigation: {},
     selectedTab: 'index'
   }
 
@@ -23,7 +23,7 @@ export default class LayoutComponent extends React.Component {
     return (
       <View style={styles.container}>
         {this.props.children}
-        <TabNavigatorComponent currentPage={this.props.currentPage} selectedTab={this.props.selectedTab}></TabNavigatorComponent>
+        <TabNavigatorComponent navigation={this.props.navigation} selectedTab={this.props.selectedTab}></TabNavigatorComponent>
       </View>
     );
   }

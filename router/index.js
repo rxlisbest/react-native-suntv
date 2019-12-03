@@ -10,6 +10,7 @@ import IndexScreen from '../components/IndexScreen'
 import LoginScreen from '../components/LoginScreen'
 import UserScreen from '../components/UserScreen'
 import ChannelCreateScreen from '../components/ChannelCreateScreen'
+import ChannelCategoryCreateScreen from '../components/ChannelCategoryCreateScreen'
 
 const AppNavigator = createStackNavigator({
   View: ViewScreen,
@@ -17,8 +18,9 @@ const AppNavigator = createStackNavigator({
   Login: LoginScreen,
   User: UserScreen,
   ChannelCreate: ChannelCreateScreen,
+  ChannelCategoryCreate: ChannelCategoryCreateScreen
 }, {
-  initialRouteName: 'ChannelCreate',
+  initialRouteName: 'User',
 });
 
 export default createAppContainer(AppNavigator);
