@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Button, View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { Video } from 'expo-av'
+import ScreenUtils from '../utils/ScreenUtils'
+import { Button, Icon } from '@ant-design/react-native';
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -14,41 +16,48 @@ export default class VideoPickerComponent extends React.Component {
 
   state = {
     videoSrc: null,
-    videoPreview: 'none',
   };
 
   render() {
-    let { videoSrc } = this.state;
-    let videoPreviewStyle = {
-      width: 300,
-      height: 200,
-    }
+    let { videoSrc } = this.state
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        <Video
-          source={{ uri: videoSrc }}
-          ref={this._handleVideoRef}
-          // rate={1.0}
-          volume={1.0}
-          isMuted={false}
-          resizeMode="contain"
-          shouldPlay
-          isLooping
-          style={Object.assign(videoPreviewStyle, {display: this.state.videoPreview})}
-          fullscreen={false}
-          useNativeControls={false}
-        />
+        <TouchableOpacity style={Object.assign({ display: this.state.videoSrc !== null ? 'none' : 'flex' }, styles.pickVideo)} onPress={this._pickImage}>
+          <Icon name="cloud-upload" style={styles.pickVideoIcon} size={ScreenUtils.width / 2} />
+        </TouchableOpacity>
+        <View style={{ display: this.state.videoSrc !== null ? 'flex' : 'none' }}>
+          <Button
+            type="ghost"
+            onPressIn={this._resetVideo}
+            style={styles.closeButton}
+          >
+            <Icon name="close" color="#999999" />
+          </Button>
+          <Video
+            source={{ uri: videoSrc }}
+            ref={this._handleVideoRef}
+            // rate={1.0}
+            volume={1.0}
+            isMuted={false}
+            resizeMode="contain"
+            shouldPlay
+            isLooping
+            style={Object.assign({ display: this.state.videoSrc !== null ? 'flex' : 'none' }, styles.backgroundVideo)}
+            fullscreen={false}
+            useNativeControls={false}
+          >
+          </Video>
+        </View>
       </View>
     );
   }
 
   componentDidMount() {
     this.getPermissionAsync();
-    console.log('hi');
+  }
+
+  _resetVideo = () => {
+    this.setState({ videoSrc: null })
   }
 
   getPermissionAsync = async () => {
@@ -71,15 +80,32 @@ export default class VideoPickerComponent extends React.Component {
     // console.log(result)
     if (!result.cancelled) {
       this.setState({ videoSrc: result.uri })
-      this.setState({ videoPreview: 'flex' })
-      console.log(styles.backgroundVideo)
-      // styles.backgroundVideo.display = 'none'
     }
   };
 }
 var styles = StyleSheet.create({
   backgroundVideo: {
-    width: 300,
-    height: 200,
+    width: ScreenUtils.width,
+    height: ScreenUtils.width / 4 * 3,
+    backgroundColor: '#000000'
+  },
+  closeButton: {
+    position: 'absolute',
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: 30,
+    borderColor: '#999999',
+    left: 0,
+    top: 0,
+    zIndex: 99,
+  },
+  pickVideo: {
+    width: ScreenUtils.width,
+    height: ScreenUtils.width / 4 * 3,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  pickVideoIcon: {
   },
 });
