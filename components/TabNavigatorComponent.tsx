@@ -5,7 +5,6 @@ import TabNavigator from 'react-native-tab-navigator'
 import i18n from '../i18n'
 
 import { Icon } from 'react-native-elements'
-import LoginScreen from './LoginScreen'
 
 // Later on in your styles..
 var styles = StyleSheet.create({
@@ -98,7 +97,7 @@ export default class TabNavigatorComponent extends React.Component {
             onPress={() => this.onPress('User')}
           >
             <View style={{height: 0}}>
-              <LoginScreen />
+              <Text>{i18n.t('tabNavigator.user')}</Text>
             </View>
           </TabNavigator.Item>
         </TabNavigator>

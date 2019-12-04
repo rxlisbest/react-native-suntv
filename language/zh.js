@@ -7,6 +7,7 @@ export default {
     minlength: '长度必须大于{1}.',
     maxlength: '长度必须小于{1}.',
     cellphone: '必须是手机号码格式',
+    confirm: '{1}必须与{2}相同',
   },
   error: {
     network: '网络错误'
@@ -18,6 +19,7 @@ export default {
     send: '发送',
     submit: '登录',
     register: '注册账号',
+    passwordLogin: '密码登录',
   },
   tabNavigator: {
     index: '首页',
@@ -40,7 +42,16 @@ export default {
     captcha: '图形验证码',
     code: '短信验证码',
     send: '发送',
+    password: '密码',
+    confirmPassword: '确认密码',
     submit: '注册',
     login: '已有账号，去登录',
+  },
+  passwordLogin: {
+    cellphone: '手机号码',
+    password: '密码',
+    submit: '登录',
+    register: '注册账号',
+    login: '短信登录',
   },
 }

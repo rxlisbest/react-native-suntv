@@ -1,37 +1,18 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
   View,
-  requireNativeComponent,
-  ImageBackground,
   Dimensions,
   TouchableOpacity,
-  processColor
-} from 'react-native';
-import {
-  connect
-} from "react-redux";
+} from 'react-native'
 import {
   Button,
-  ThemeProvider,
-  Header,
   Image,
   Input,
-  Icon
 } from 'react-native-elements'
-import {
-  Audio,
-  Video
-} from 'expo-av';
-import {
-  ScreenOrientation
-} from 'expo'
 import i18n from '../i18n'
 import Toast from 'react-native-root-toast'
-import ValidationComponent from 'react-native-form-validator'
 import FormComponent from './FormComponent'
 
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
@@ -40,12 +21,9 @@ import { create } from '../api/sms'
 import { usersLogin } from '../api/users'
 import { AsyncStorage } from 'react-native'
 import CountDownButtonComponent from './CountDownButtonComponent'
+import { Flex } from '@ant-design/react-native'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
-const _handleVideoRef = component => {
-  const playbackObject = component;
-  playbackObject.presentFullscreenPlayer()
-}
 const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
 
 export default class LoginScreen extends FormComponent {
@@ -252,12 +230,24 @@ export default class LoginScreen extends FormComponent {
               onPress={() => this.onSubmitForm()}
             />
             <View style={styles.register}>
-              <Text
-                style={styles.registerText}
-                onPress={() => this.props.navigation.navigate('Register')}
-              >
-                {i18n.t('login.register')}
-              </Text>
+              <Flex justify="start" align="start">
+                <Flex.Item >
+                  <Text
+                    style={styles.passwordLoginText}
+                    onPress={() => this.props.navigation.navigate('PasswordLogin')}
+                  >
+                    {i18n.t('login.passwordLogin')}
+                  </Text>
+                </Flex.Item>
+                <Flex.Item>
+                  <Text
+                    style={styles.registerText}
+                    onPress={() => this.props.navigation.navigate('Register')}
+                  >
+                    {i18n.t('login.register')}
+                  </Text>
+                </Flex.Item>
+              </Flex>
             </View>
           </View>
           <View style={styles.copyright}>
@@ -338,5 +328,12 @@ var styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: 10,
     color: "#2089dc",
-  }
+  },
+  passwordLoginText: {
+    paddingLeft: 10,
+    fontSize: 16,
+    alignSelf: "flex-start",
+    marginRight: 10,
+    color: "#2089dc",
+  },
 });

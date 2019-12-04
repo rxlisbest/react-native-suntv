@@ -17,8 +17,12 @@ export default class FormComponent extends ValidationComponent {
   rules = Object.assign(this.rules, rules)
 
   getErrorsMessageInField(field, fieldName) {
-    return this.getErrorsInField(field  ).map(errorMessage => {
+    return this.getErrorsInField(field).map(errorMessage => {
       return fieldName + errorMessage
     })
+  }
+
+  getConfirmErrorsMessage(fieldName1, fieldName2) {
+    return messages.confirm.replace('{1}', fieldName1).replace('{2}', fieldName2)
   }
 }
