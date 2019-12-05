@@ -17,8 +17,8 @@ import FormComponent from './FormComponent'
 
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
-import { create } from '../api/sms'
-import { usersLogin } from '../api/users'
+import { create } from '../api/Sms'
+import { usersLogin } from '../api/Users'
 import { AsyncStorage } from 'react-native'
 import CountDownButtonComponent from './CountDownButtonComponent'
 import { Flex } from '@ant-design/react-native'

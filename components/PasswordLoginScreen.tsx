@@ -15,7 +15,7 @@ import FormComponent from './FormComponent'
 
 const { width, height } = Dimensions.get('window') // 页面宽度和高度
 const formWidth = width / 4 * 3 // 表单宽度
-import { usersPasswordLogin } from '../api/users'
+import { usersPasswordLogin } from '../api/Users'
 import { AsyncStorage } from 'react-native'
 import { Flex } from '@ant-design/react-native'
 

@@ -18,6 +18,7 @@ import { Tile } from 'react-native-elements'
 import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
 import ScreenUtils from '../utils/ScreenUtils'
+import store from '../store/index' 
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -30,8 +31,9 @@ export default class IndexScreen extends React.Component {
     header: null
   };
 
-  componentDitMount() {
-    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
+  componentWillMount() {
+    console.log(store.getState('token'))
+    // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
   }
 
   render() {

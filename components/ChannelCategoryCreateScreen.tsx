@@ -31,52 +31,63 @@ import {
 import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
 import ImagePickerComponent from './VideoPickerComponent'
-import { List, Picker, InputItem, Button, WhiteSpace } from '@ant-design/react-native'
+import { List, InputItem, Toast, WhiteSpace } from '@ant-design/react-native'
 import ScreenUtils from '../utils/ScreenUtils'
+import { channelCategoryCreate } from '../api/ChannelCategory'
+import SubmitButtonComponent from './SubmitButtonComponent'
+import FormComponent from './FormComponent'
 
-
-_handleVideoRef = component => {
-  const playbackObject = component;
-  playbackObject.presentFullscreenPlayer()
-}
-
-export default class ChannelCategoryCreateScreen extends React.Component {
+export default class ChannelCategoryCreateScreen extends FormComponent {
 
   static navigationOptions = {
     header: null
   };
 
+  state = {
+    name: '',
+  }
+
   componentDitMount() {
-    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+  }
+
+  onPress = () => {
+    this.validate({
+      name: { required: true, minlength: 6, maxlength: 20 },
+    })
+    let fields = [
+      { field: 'name', fieldName: i18n.t('channelCategory.name') },
+    ]
+    for (let v of fields) {
+      if (this.isFieldInError(v.field)) {
+        Toast.fail(this.getErrorsMessageInField(v.field, v.fieldName)[0])
+        return false
+      }
+    }
+
+    return channelCategoryCreate({ "name": this.state.name }).then(data => {
+      Toast.success("123")
+    }).catch(error => {
+      Toast.fail(error.message)
+    })
   }
 
   render() {
     return (
-      <LayoutComponent selectedTab='user'>
+      <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
           <List renderHeader={'基本'} style={{ marginTop: ScreenUtils.statusBarHeight }}>
             <InputItem
               clear
               placeholder="点击下方按钮该输入框会获取光标"
               ref={el => (this.inputRef = el)}
+              onChange={(name) => this.setState({ name })}
+              value={this.state.name}
             >
               标题
             </InputItem>
-            <Picker
-              data={[]}
-              cols={2}
-            // value={}
-            // onChange={this.onChange}
-            >
-              <List.Item
-                arrow="horizontal"
-              // onPress={this.onPress}
-              >
-                省市选择(异步加载)
-              </List.Item>
-            </Picker>
           </List>
-          <Button type="primary">primary</Button>
+          <WhiteSpace />
+          <SubmitButtonComponent onPress={() => { return this.onPress() }}>{i18n.t('button.submit')}</SubmitButtonComponent>
         </ScrollView>
       </LayoutComponent>
     );

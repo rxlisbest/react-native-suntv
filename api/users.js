@@ -1,4 +1,4 @@
-import { post } from './request'
+import { post } from './Request'
 
 export function usersLogin(data) {
   return post('users/login', data)

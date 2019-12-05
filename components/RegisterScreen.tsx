@@ -17,8 +17,8 @@ import FormComponent from './FormComponent'
 import ScreenUtils from '../utils/ScreenUtils'
 
 const formWidth = ScreenUtils.width / 4 * 3 // 表单宽度
-import { create } from '../api/sms'
-import { usersRegister } from '../api/users'
+import { create } from '../api/Sms'
+import { usersRegister } from '../api/Users'
 import { AsyncStorage } from 'react-native'
 import CountDownButtonComponent from './CountDownButtonComponent'
 

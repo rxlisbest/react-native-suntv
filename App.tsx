@@ -16,6 +16,10 @@ async function getLocationAsync() {
 }
 import { AppLoading } from 'expo'
 import { Font } from 'expo-font'
+import store from './store'
+import { Provider } from 'react-redux'
+
+import { Provider as AntProvider } from '@ant-design/react-native'
 
 export default class App extends React.Component {
   state = {
@@ -47,7 +51,11 @@ export default class App extends React.Component {
       return <AppLoading />;
     }
     return (
-      <Router></Router>
+      <Provider store={store}>
+        <AntProvider>
+          <Router></Router>
+        </AntProvider>
+      </Provider>
     );
   }
 }

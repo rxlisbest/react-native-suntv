@@ -2,7 +2,8 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-} from 'react-native';
+} from 'react-native'
+import { WhiteSpace } from '@ant-design/react-native'
 import TabNavigatorComponent from './TabNavigatorComponent'
 import ScreenUtils from '../utils/ScreenUtils'
 import PropTypes from 'prop-types'

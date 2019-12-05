@@ -33,6 +33,8 @@ import LayoutComponent from './LayoutComponent'
 import ImagePickerComponent from './VideoPickerComponent'
 import { List, Picker, InputItem, Button, WhiteSpace } from '@ant-design/react-native'
 import ScreenUtils from '../utils/ScreenUtils'
+import Qiniu, { Auth, ImgOps, Conf, Rs, Rpc } from 'react-native-qiniu'
+import SubmitButtonComponent from './SubmitButtonComponent'
 
 
 _handleVideoRef = component => {
@@ -90,7 +92,7 @@ export default class ChannelCreateScreen extends React.Component {
             />
           </List>
           <WhiteSpace />
-          <Button type="primary">primary</Button>
+          <SubmitButtonComponent type="primary">primary</SubmitButtonComponent>
         </ScrollView>
       </LayoutComponent>
     );

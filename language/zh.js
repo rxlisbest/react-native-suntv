@@ -9,6 +9,10 @@ export default {
     cellphone: '必须是手机号码格式',
     confirm: '{1}必须与{2}相同',
   },
+  button: {
+    loading: '提交中...',
+    submit: '提交',
+  },
   error: {
     network: '网络错误'
   },
@@ -53,5 +57,8 @@ export default {
     submit: '登录',
     register: '注册账号',
     login: '短信登录',
+  },
+  channelCategory: {
+    name: '名称',
   },
 }
