@@ -8,10 +8,14 @@ export default {
     maxlength: '长度必须小于{1}.',
     cellphone: '必须是手机号码格式',
     confirm: '{1}必须与{2}相同',
+    notnull: '是必需的',
   },
   button: {
     loading: '提交中...',
     submit: '提交',
+  },
+  input: {
+    placeholder: '请输入'
   },
   error: {
     network: '网络错误'
@@ -60,5 +64,11 @@ export default {
   },
   channelCategory: {
     name: '名称',
+  },
+  channelCreate: {
+    name: '名称',
+    channelCategoryId: '分类',
+    base: '基本信息',
+    file: '上传视频',
   },
 }

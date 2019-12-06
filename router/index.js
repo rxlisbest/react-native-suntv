@@ -24,9 +24,9 @@ const AppNavigator = createStackNavigator({
   ChannelCategoryCreate: ChannelCategoryCreateScreen,
   Register: RegisterScreen,
   PasswordLogin: PasswordLoginScreen,
-  InitScreen: InitScreen,
+  Init: InitScreen,
 }, {
-  initialRouteName: 'InitScreen',
+  initialRouteName: 'Init',
 });
 
 export default createAppContainer(AppNavigator);

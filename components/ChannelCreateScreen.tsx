@@ -1,98 +1,112 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React from 'react'
 import {
   StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  requireNativeComponent,
   ScrollView,
-} from 'react-native';
-import {
-  connect
-} from "react-redux";
-import {
-  Avatar,
-  ThemeProvider,
-  ListItem
-} from 'react-native-elements'
-import {
-  Audio,
-  Video
-} from 'expo-av';
-import {
-  Header
-} from 'react-native-elements';
+} from 'react-native'
 import {
   ScreenOrientation
 } from 'expo'
 import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
-import ImagePickerComponent from './VideoPickerComponent'
-import { List, Picker, InputItem, Button, WhiteSpace } from '@ant-design/react-native'
+import VideoPickerComponent from './VideoPickerComponent'
+import { List, Picker, InputItem, WhiteSpace, Toast } from '@ant-design/react-native'
 import ScreenUtils from '../utils/ScreenUtils'
 import Qiniu, { Auth, ImgOps, Conf, Rs, Rpc } from 'react-native-qiniu'
 import SubmitButtonComponent from './SubmitButtonComponent'
+import { channelCategoryAll } from '../api/ChannelCategory'
+import { channelCreate } from '../api/Channel'
+import FormComponent from './FormComponent'
 
-
-_handleVideoRef = component => {
-  const playbackObject = component;
-  playbackObject.presentFullscreenPlayer()
-}
-
-export default class ChannelCreateScreen extends React.Component {
+export default class ChannelCreateScreen extends FormComponent {
 
   static navigationOptions = {
     header: null
-  };
+  }
+
+  state = {
+    name: '',
+    channel_category: [],
+    channel_category_id: undefined,
+    videoSrc: '',
+  }
 
   componentDitMount() {
     ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+  }
+
+  setVideoSrc(videoSrc) {
+    this.setState({ videoSrc })
+  }
+
+  onChannelCategoryPress = async () => {
+    let data = await channelCategoryAll()
+    let channel_category = []
+    for (let v of data) {
+      channel_category.push({ value: v.id, label: v.name })
+    }
+    this.setState({ channel_category: channel_category })
+  }
+
+  onChannelCategoryChange = (value) => {
+    this.setState({ channel_category_id: value });
+  }
+
+  onSubmit = () => {
+    this.validate({
+      // name: { required: true, minlength: 6, maxlength: 20 },
+      channel_category_id: { required: true, notnull: true },
+    })
+    let fields = [
+      // { field: 'name', fieldName: i18n.t('channelCategory.name') },
+      { field: 'channel_category_id', fieldName: i18n.t('channelCreate.channelCategoryId') },
+    ]
+    for (let v of fields) {
+      if (this.isFieldInError(v.field)) {
+        Toast.fail(this.getErrorsMessageInField(v.field, v.fieldName)[0])
+        return false
+      }
+    }
+
+    return channelCreate({ "name": this.state.name }).then(data => {
+      Toast.success("123")
+    }).catch(error => {
+      Toast.fail(error)
+    })
   }
 
   render() {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
-          <List renderHeader={'基本'} style={{ marginTop: ScreenUtils.statusBarHeight }}>
+          <List renderHeader={i18n.t('channelCreate.base')} style={{ marginTop: ScreenUtils.statusBarHeight }}>
             <InputItem
               clear
-              placeholder="点击下方按钮该输入框会获取光标"
+              placeholder={i18n.t('input.placeholder')}
               ref={el => (this.inputRef = el)}
+              onChange={(name) => this.setState({ name })}
+              value={this.state.name}
             >
-              标题
+              {i18n.t('channelCreate.name')}
             </InputItem>
             <Picker
-              data={[]}
-              cols={2}
-            // value={}
-            // onChange={this.onChange}
+              data={this.state.channel_category}
+              cols={1}
+              value={this.state.channel_category_id}
+              onChange={this.onChannelCategoryChange}
             >
               <List.Item
                 arrow="horizontal"
-              // onPress={this.onPress}
+                onPress={this.onChannelCategoryPress}
               >
-                省市选择(异步加载)
+                {i18n.t('channelCreate.channelCategoryId')}
               </List.Item>
             </Picker>
           </List>
-          <List renderHeader={'基本'}>
-            <ImagePickerComponent
-            // files={files}
-            // selectable={files.length < 2}
-            // onChange={this.onChange}
-            // onImageClick={(index, files) => {
-            //   console.log(files[index].url)
-            // }}
-            // onAddImageClick={
-            //   this.choosePicker
-            // }
-            />
+          <List renderHeader={i18n.t('channelCreate.file')}>
+            <VideoPickerComponent></VideoPickerComponent>
           </List>
           <WhiteSpace />
-          <SubmitButtonComponent type="primary">primary</SubmitButtonComponent>
+          <SubmitButtonComponent onPress={() => { return this.onSubmit() }}>{i18n.t('button.submit')}</SubmitButtonComponent>
         </ScrollView>
       </LayoutComponent>
     );

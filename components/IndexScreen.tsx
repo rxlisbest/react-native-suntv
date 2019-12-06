@@ -18,7 +18,8 @@ import { Tile } from 'react-native-elements'
 import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
 import ScreenUtils from '../utils/ScreenUtils'
-import store from '../store/index' 
+import store from '../store/index'
+import LayoutComponent from './LayoutComponent'
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -38,11 +39,7 @@ export default class IndexScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {/* <Header
-          leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: '首页', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'home', color: '#fff' }} /> */}
+      <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
           <Video
             source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
@@ -87,8 +84,7 @@ export default class IndexScreen extends React.Component {
             </View>
           </Tile>
         </ScrollView>
-        <TabNavigatorComponent currentPage={this} selectedTab='index'></TabNavigatorComponent>
-      </View >
+      </LayoutComponent>
     );
   }
 }

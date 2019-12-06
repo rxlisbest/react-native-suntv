@@ -1,22 +1,39 @@
-import Toast from 'react-native-root-toast'
 import i18n from '../i18n'
 let domain = process.env.API_DOMAIN
-import store from '../store/index' 
+import store from '../store/index'
 
-export async function post(url, data) {
+async function request(method, url, data) {
   try {
     const token = store.getState().token || ''
-    const option = {
-      method: 'POST',
-      headers: {
+    let headers = {}
+    if (token) {
+      headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify(data)
+        'Authorization': 'Bearer ' + token,
+      }
+    } else {
+      headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
     }
-    let response = await fetch(domain + url, option)
 
+    let option = {}
+    if (data != undefined) {
+      option = {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(data),
+      }
+    } else {
+      option = {
+        method: method,
+        headers: headers,
+      }
+    }
+
+    let response = await fetch(domain + url, option)
     if (response.status.toString().search(/20[0-9]/) >= 0) {
       switch (option.method) {
         case 'PUT':
@@ -29,9 +46,27 @@ export async function post(url, data) {
     } else {
       let error = await response.json()
       // Toast.show(error.message)
-      return Promise.reject(error)
+      return Promise.reject(error.message)
     }
   } catch (error) {
-    Toast.show(i18n.t('error.network'))
+    return Promise.reject(i18n.t('error.network'))
   }
+}
+
+export function post(url, data) {
+  return request('POST', url, data)
+}
+
+export function get(url, params) {
+  if (params) {
+    let paramsArray = [];
+    //拼接参数  
+    Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]))
+    if (url.search(/\?/) === -1) {
+      url += '?' + paramsArray.join('&')
+    } else {
+      url += '&' + paramsArray.join('&')
+    }
+  }
+  return request('GET', url)
 }

@@ -65,9 +65,10 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
     }
 
     return channelCategoryCreate({ "name": this.state.name }).then(data => {
+      console.log(data)
       Toast.success("123")
     }).catch(error => {
-      Toast.fail(error.message)
+      Toast.fail(error)
     })
   }
 

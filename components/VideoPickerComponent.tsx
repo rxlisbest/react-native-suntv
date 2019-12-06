@@ -80,6 +80,7 @@ export default class VideoPickerComponent extends React.Component {
     // console.log(result)
     if (!result.cancelled) {
       this.setState({ videoSrc: result.uri })
+      this.props.parent.setVideoSrc(result.uri)
     }
   };
 }

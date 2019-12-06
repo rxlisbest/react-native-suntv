@@ -3,7 +3,21 @@ import i18n from '../i18n'
 
 const messages = i18n.t('messages')
 const rules = {
-  cellphone: /^1[3456789]\d{9}$/
+  cellphone: /^1[3456789]\d{9}$/,
+  notnull(is, value) {
+    if (is === true) {
+      if (value === false || value === undefined) {
+        return false
+      }
+      if (value instanceof Array && value.length == 0) {
+        return false
+      }
+      if (value instanceof String && value.length == 0) {
+        return false
+      }
+    }
+    return true
+  },
 }
 
 export default class FormComponent extends ValidationComponent {
