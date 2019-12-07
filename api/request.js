@@ -1,8 +1,13 @@
 import i18n from '../i18n'
-let domain = process.env.API_DOMAIN
+let apiDomain = process.env.API_DOMAIN
+let qiniuUploadDomain = process.env.QINIU_UPLOAD_DOMAIN
+qiniuUploadDomain = 'https://up-z1.qiniup.com/'
+console.log(apiDomain)
+console.log(qiniuUploadDomain)
 import store from '../store/index'
 
-async function request(method, url, data) {
+async function request(method, url, data, domain) {
+  domain = domain || apiDomain
   try {
     const token = store.getState().token || ''
     let headers = {}
@@ -53,11 +58,11 @@ async function request(method, url, data) {
   }
 }
 
-export function post(url, data) {
-  return request('POST', url, data)
+export function post(url, data, domain) {
+  return request('POST', url, data, domain)
 }
 
-export function get(url, params) {
+export function get(url, params, domain) {
   if (params) {
     let paramsArray = [];
     //拼接参数  
@@ -68,5 +73,24 @@ export function get(url, params) {
       url += '&' + paramsArray.join('&')
     }
   }
-  return request('GET', url)
+  return request('GET', url, undefined, domain)
+}
+
+export async function uploadQiniu(data) {
+  try {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+    }
+
+    const option = {
+      method: 'POST',
+      headers: headers,
+      body: data,
+    }
+
+    let response = await fetch(qiniuUploadDomain, option)
+    return response.json()
+  } catch (error) {
+    return Promise.reject(i18n.t('error.network'))
+  }
 }

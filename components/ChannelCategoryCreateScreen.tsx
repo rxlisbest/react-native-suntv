@@ -41,7 +41,7 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
 
   static navigationOptions = {
     header: null
-  };
+  }
 
   state = {
     name: '',
