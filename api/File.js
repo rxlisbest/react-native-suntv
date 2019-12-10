@@ -7,3 +7,7 @@ export function fileUpToken(params) {
 export function fileUpload(data) {
   return uploadQiniu(data)
 }
+
+export function fileCreate(data) {
+  return post('files/create', data)
+}

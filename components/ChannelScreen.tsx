@@ -26,7 +26,7 @@ _handleVideoRef = component => {
   playbackObject.presentFullscreenPlayer()
 }
 
-export default class IndexScreen extends React.Component {
+export default class ChannelScreen extends React.Component {
 
   static navigationOptions = {
     header: null
@@ -42,7 +42,7 @@ export default class IndexScreen extends React.Component {
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
           <Video
-            source={{ uri: 'http://suntv.cdn.ruixinglong.net/eec2afc1-d357-43a1-a919-d9672d79b774.m3u8' }}
+            source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
             ref={this._handleVideoRef}
             rate={1.0}
             volume={1.0}

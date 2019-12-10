@@ -15,7 +15,7 @@ import Qiniu, { Auth, ImgOps, Conf, Rs, Rpc } from 'react-native-qiniu'
 import SubmitButtonComponent from './SubmitButtonComponent'
 import { channelCategoryAll } from '../api/ChannelCategory'
 import { channelCreate } from '../api/Channel'
-import { fileUpToken, fileUpload } from '../api/File'
+import { fileUpToken, fileUpload, fileCreate } from '../api/File'
 import FormComponent from './FormComponent'
 
 export default class ChannelCreateScreen extends FormComponent {
@@ -36,9 +36,7 @@ export default class ChannelCreateScreen extends FormComponent {
   }
 
   setVideoSrc = (videoSrc) => {
-    console.log(videoSrc)
     this.setState({ videoSrc })
-    console.log(this.state.videoSrc)
   }
 
   onChannelCategoryPress = async () => {
@@ -56,12 +54,14 @@ export default class ChannelCreateScreen extends FormComponent {
 
   onSubmit = () => {
     this.validate({
-      // name: { required: true, minlength: 6, maxlength: 20 },
-      // channel_category_id: { required: true, notnull: true },
+      name: { required: true, notnull: true },
+      channel_category_id: { required: true, notnull: true },
+      videoSrc: { required: true, notnull: true },
     })
     let fields = [
-      // { field: 'name', fieldName: i18n.t('channelCategory.name') },
-      // { field: 'channel_category_id', fieldName: i18n.t('channelCreate.channelCategoryId') },
+      { field: 'name', fieldName: i18n.t('channelCategory.name') },
+      { field: 'channel_category_id', fieldName: i18n.t('channelCreate.channelCategoryId') },
+      { field: 'videoSrc', fieldName: i18n.t('channelCreate.file') },
     ]
     for (let v of fields) {
       if (this.isFieldInError(v.field)) {
@@ -76,8 +76,21 @@ export default class ChannelCreateScreen extends FormComponent {
       formData.append('key', response.key)
       formData.append('token', response.upToken)
       formData.append('file', { uri: this.state.videoSrc, type: 'multipart/form-data' })
-      return fileUpload(formData).then(res => {
-        console.log(res)
+      return fileUpload(formData).then(fileUploadResponse => {
+        let file = {
+          key: fileUploadResponse.key,
+          transcoding_code: fileUploadResponse.persistentId,
+        }
+        return fileCreate(file).then(fileCreateResponse => {
+          let channel = { 
+            file_id: fileCreateResponse.id, 
+            name: this.state.name, 
+            channel_category_id: this.state.channel_category_id[0] 
+          }
+          return channelCreate(channel).then(channelCreateResponse => {
+            console.log(fileCreateResponse)
+          })
+        })
       })
     }).catch(error => {
       console.log(error)
