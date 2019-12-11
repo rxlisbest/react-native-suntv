@@ -20,6 +20,9 @@ export default {
   error: {
     network: '网络错误'
   },
+  info: {
+    noMore: '没有更多数据'
+  },
   login: {
     cellphone: '手机号码',
     captcha: '图形验证码',

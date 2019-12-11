@@ -20,6 +20,8 @@ import i18n from '../i18n'
 import ScreenUtils from '../utils/ScreenUtils'
 import store from '../store/index'
 import LayoutComponent from './LayoutComponent'
+import { WhiteSpace, Toast } from '@ant-design/react-native'
+import { channelIndex } from '../api/Channel'
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -30,17 +32,55 @@ export default class IndexScreen extends React.Component {
 
   static navigationOptions = {
     header: null
-  };
+  }
+
+  state = {
+    channelData: {
+      pages: 1,
+      pageNum: 0,
+      list: [],
+    },
+  }
 
   componentWillMount() {
-    console.log(store.getState('token'))
+    this.getChannel()
     // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
+  }
+
+  async getChannel() {
+    if(this.state.channelData.pageNum == this.state.channelData.pages) {
+      Toast.info(i18n.t('info.noMore'))
+      return false
+    }
+    let response = await channelIndex({ pageNum: this.state.channelData.pageNum + 1 })
+    let channelDataList = this.state.channelData.list
+    let responseList = response.list
+    responseList = channelDataList.concat(responseList)
+    response.list = responseList
+    this.setState({ channelData: response })
+  }
+
+  _contentViewScroll = (e: Object) => {
+    var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
+    var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
+    var oriageScrollHeight = e.nativeEvent.layoutMeasurement.height; //scrollView高度
+    console.log(offsetY + oriageScrollHeight)
+    console.log(contentSizeHeight)
+    if (parseInt(offsetY + oriageScrollHeight) >= parseInt(contentSizeHeight)) {
+      this.getChannel()
+    }
   }
 
   render() {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
-        <ScrollView>
+        <ScrollView
+          style={{ flex: 1 }}
+          onMomentumScrollEnd={this._contentViewScroll}
+          automaticallyAdjustContentInsets={false}
+          showsVerticalScrollIndicator={false}
+          scrollsToTop={true}
+        >
           <Video
             source={{ uri: 'http://suntv.cdn.ruixinglong.net/eec2afc1-d357-43a1-a919-d9672d79b774.m3u8' }}
             ref={this._handleVideoRef}
@@ -57,19 +97,21 @@ export default class IndexScreen extends React.Component {
           <ThemeProvider>
             <Button title="Hey!" onPress={() => this.props.navigation.navigate('View')} />
           </ThemeProvider>
-          <Tile
-            imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
-            title="Lorem ipsum"
-            icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-            contentContainerStyle={{ height: 100 }}
-          >
-            <View
-              style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
-            >
-              <Text>Caption</Text>
-              <Text>Caption</Text>
-            </View>
-          </Tile>
+          {
+            this.state.channelData.list.map((v, k) => (
+              <View>
+                <Tile
+                  containerStyle={{ backgroundColor: '#FFFFFF' }}
+                  imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
+                  title={v.name}
+                  icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
+                  contentContainerStyle={{ height: 80 }}
+                >
+                </Tile>
+                <WhiteSpace />
+              </View>
+            ))
+          }
           <Tile
             imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
             title="Lorem ipsum"
