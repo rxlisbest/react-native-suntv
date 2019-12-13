@@ -21,7 +21,8 @@ export default {
     network: '网络错误'
   },
   info: {
-    noMore: '没有更多数据'
+    noMore: '没有更多数据',
+    loading: '加载中...',
   },
   login: {
     cellphone: '手机号码',

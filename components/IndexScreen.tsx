@@ -20,7 +20,7 @@ import i18n from '../i18n'
 import ScreenUtils from '../utils/ScreenUtils'
 import store from '../store/index'
 import LayoutComponent from './LayoutComponent'
-import { WhiteSpace, Toast } from '@ant-design/react-native'
+import { WhiteSpace, Toast, Portal } from '@ant-design/react-native'
 import { channelIndex } from '../api/Channel'
 
 _handleVideoRef = component => {
@@ -35,6 +35,7 @@ export default class IndexScreen extends React.Component {
   }
 
   state = {
+    loading: false,
     channelData: {
       pages: 1,
       pageNum: 0,
@@ -43,29 +44,59 @@ export default class IndexScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.getChannel()
+    this.initChannel()
     // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
   }
 
-  async getChannel() {
-    if(this.state.channelData.pageNum == this.state.channelData.pages) {
-      Toast.info(i18n.t('info.noMore'))
-      return false
+  initChannel() {
+    this.setState({
+      channelData: {
+        ...this.state.channelData,
+        pages: 1,
+        pageNum: 0,
+        list: [],
+      }
+    }, () => {
+      this.getChannel()
+    })
+  }
+
+  getChannel() {
+    if (!this.state.loading) {
+      if (this.state.channelData.pageNum == this.state.channelData.pages) {
+        Toast.info(i18n.t('info.noMore'), 1)
+        return false
+      }
+      this.setState({
+        loading: true,
+        channelData: {
+          ...this.state.channelData, pageNum: this.state.channelData.pageNum + 1
+        }
+      }, () => {
+        const key = Toast.loading(i18n.t('info.loading'))
+        channelIndex({ pageNum: this.state.channelData.pageNum }).then((response) => {
+          if (this.state.channelData.pageNum == response.pageNum) {
+            let channelDataList = this.state.channelData.list
+            let responseList = response.list
+            responseList = channelDataList.concat(responseList)
+            response.list = responseList
+            this.setState({ channelData: response, loading: false })
+          } else {
+            this.setState({ loading: false })
+          }
+          Portal.remove(key)
+        })
+      })
     }
-    let response = await channelIndex({ pageNum: this.state.channelData.pageNum + 1 })
-    let channelDataList = this.state.channelData.list
-    let responseList = response.list
-    responseList = channelDataList.concat(responseList)
-    response.list = responseList
-    this.setState({ channelData: response })
   }
 
   _contentViewScroll = (e: Object) => {
     var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
     var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
     var oriageScrollHeight = e.nativeEvent.layoutMeasurement.height; //scrollView高度
-    console.log(offsetY + oriageScrollHeight)
-    console.log(contentSizeHeight)
+    if (offsetY == 0) {
+      this.initChannel()
+    }
     if (parseInt(offsetY + oriageScrollHeight) >= parseInt(contentSizeHeight)) {
       this.getChannel()
     }
@@ -77,6 +108,7 @@ export default class IndexScreen extends React.Component {
         <ScrollView
           style={{ flex: 1 }}
           onMomentumScrollEnd={this._contentViewScroll}
+          onMomentumScrollBegin={this._contentViewScroll}
           automaticallyAdjustContentInsets={false}
           showsVerticalScrollIndicator={false}
           scrollsToTop={true}
