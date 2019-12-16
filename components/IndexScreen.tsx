@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Dimensions,
-  ScrollView
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {
   Button,
@@ -35,6 +36,7 @@ export default class IndexScreen extends React.Component {
   }
 
   state = {
+    isRefreshing: false,
     loading: false,
     channelData: {
       pages: 1,
@@ -48,7 +50,7 @@ export default class IndexScreen extends React.Component {
     // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_RIGHT)
   }
 
-  initChannel() {
+  initChannel = () => {
     this.setState({
       channelData: {
         ...this.state.channelData,
@@ -57,11 +59,11 @@ export default class IndexScreen extends React.Component {
         list: [],
       }
     }, () => {
-      this.getChannel()
+      this.getChannel(false)
     })
   }
 
-  getChannel() {
+  getChannel = (loading = true) => {
     if (!this.state.loading) {
       if (this.state.channelData.pageNum == this.state.channelData.pages) {
         Toast.info(i18n.t('info.noMore'), 1)
@@ -73,7 +75,10 @@ export default class IndexScreen extends React.Component {
           ...this.state.channelData, pageNum: this.state.channelData.pageNum + 1
         }
       }, () => {
-        const key = Toast.loading(i18n.t('info.loading'))
+        if (loading) {
+          const key = Toast.loading(i18n.t('info.loading'))
+        }
+        console.log(this.state.channelData.pageNum)
         channelIndex({ pageNum: this.state.channelData.pageNum }).then((response) => {
           if (this.state.channelData.pageNum == response.pageNum) {
             let channelDataList = this.state.channelData.list
@@ -84,7 +89,11 @@ export default class IndexScreen extends React.Component {
           } else {
             this.setState({ loading: false })
           }
-          Portal.remove(key)
+          if (loading) {
+            Portal.remove(key)
+          } else {
+            this.setState({isRefreshing: false})
+          }
         })
       })
     }
@@ -106,12 +115,23 @@ export default class IndexScreen extends React.Component {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView
-          style={{ flex: 1 }}
+          style={styles.scrollViewStyle}
           onMomentumScrollEnd={this._contentViewScroll}
           onMomentumScrollBegin={this._contentViewScroll}
           automaticallyAdjustContentInsets={false}
           showsVerticalScrollIndicator={false}
           scrollsToTop={true}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.initChannel}
+              tintColor="#ff0000"
+              title={i18n.t('info.loading')}
+              titleColor="#00ff00"
+              colors={['#ff0000', '#00ff00', '#0000ff']}
+              progressBackgroundColor="rgb(240, 161, 168)"
+            />
+          }
         >
           <Video
             source={{ uri: 'http://suntv.cdn.ruixinglong.net/eec2afc1-d357-43a1-a919-d9672d79b774.m3u8' }}
@@ -176,5 +196,8 @@ var styles = StyleSheet.create({
     // right: 0,
     width: 300,
     height: 200,
+  },
+  scrollViewStyle: { 
+    flex: 1,
   }
 });
