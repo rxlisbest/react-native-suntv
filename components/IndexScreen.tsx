@@ -1,33 +1,16 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  Dimensions,
   ScrollView,
   RefreshControl,
-} from 'react-native';
-import {
-  Button,
-  ThemeProvider
-} from 'react-native-elements'
-import { Video } from 'expo-av'
-import {
-  ScreenOrientation
-} from 'expo'
+} from 'react-native'
 import { Tile } from 'react-native-elements'
-import TabNavigatorComponent from './TabNavigatorComponent'
 import i18n from '../i18n'
 import ScreenUtils from '../utils/ScreenUtils'
-import store from '../store/index'
 import LayoutComponent from './LayoutComponent'
 import { WhiteSpace, Toast, Portal } from '@ant-design/react-native'
 import { channelIndex } from '../api/Channel'
-
-_handleVideoRef = component => {
-  const playbackObject = component;
-  playbackObject.presentFullscreenPlayer()
-}
 
 export default class IndexScreen extends React.Component {
 
@@ -63,10 +46,10 @@ export default class IndexScreen extends React.Component {
     })
   }
 
-  getChannel = (loading = true) => {
+  getChannel = (loadingToast = true) => {
     if (!this.state.loading) {
       if (this.state.channelData.pageNum == this.state.channelData.pages) {
-        Toast.info(i18n.t('info.noMore'), 1)
+        Toast.info(i18n.t('info.noMore'), 0.5)
         return false
       }
       this.setState({
@@ -75,10 +58,10 @@ export default class IndexScreen extends React.Component {
           ...this.state.channelData, pageNum: this.state.channelData.pageNum + 1
         }
       }, () => {
-        if (loading) {
-          const key = Toast.loading(i18n.t('info.loading'))
+        let loadingToastKey
+        if (loadingToast) {
+          loadingToastKey = Toast.loading(i18n.t('info.loading'))
         }
-        console.log(this.state.channelData.pageNum)
         channelIndex({ pageNum: this.state.channelData.pageNum }).then((response) => {
           if (this.state.channelData.pageNum == response.pageNum) {
             let channelDataList = this.state.channelData.list
@@ -89,10 +72,10 @@ export default class IndexScreen extends React.Component {
           } else {
             this.setState({ loading: false })
           }
-          if (loading) {
-            Portal.remove(key)
+          if (loadingToast) {
+            Portal.remove(loadingToastKey)
           } else {
-            this.setState({isRefreshing: false})
+            this.setState({ isRefreshing: false })
           }
         })
       })
@@ -103,9 +86,9 @@ export default class IndexScreen extends React.Component {
     var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
     var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
     var oriageScrollHeight = e.nativeEvent.layoutMeasurement.height; //scrollView高度
-    if (offsetY == 0) {
-      this.initChannel()
-    }
+    // if (offsetY == 0) {
+    //   this.initChannel()
+    // }
     if (parseInt(offsetY + oriageScrollHeight) >= parseInt(contentSizeHeight)) {
       this.getChannel()
     }
@@ -125,58 +108,31 @@ export default class IndexScreen extends React.Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={this.initChannel}
-              tintColor="#ff0000"
+              tintColor="#FFFFFF"
               title={i18n.t('info.loading')}
-              titleColor="#00ff00"
-              colors={['#ff0000', '#00ff00', '#0000ff']}
+              titleColor="#FFFFFF"
+              colors={['#FFFFFF']}
               progressBackgroundColor="rgb(240, 161, 168)"
             />
           }
         >
-          <Video
-            source={{ uri: 'http://suntv.cdn.ruixinglong.net/eec2afc1-d357-43a1-a919-d9672d79b774.m3u8' }}
-            ref={this._handleVideoRef}
-            rate={1.0}
-            volume={1.0}
-            isMuted={false}
-            resizeMode="cover"
-            shouldPlay
-            isLooping
-            style={styles.backgroundVideo}
-            fullscreen={true}
-            useNativeControls={true}
-          />
-          <ThemeProvider>
-            <Button title="Hey!" onPress={() => this.props.navigation.navigate('View')} />
-          </ThemeProvider>
           {
             this.state.channelData.list.map((v, k) => (
               <View>
                 <Tile
-                  containerStyle={{ backgroundColor: '#FFFFFF' }}
-                  imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
+                  containerStyle={styles.tileContainerStyle}
+                  imageSrc={{ uri: v.file.domain + v.file.key + '?vframe/jpg/offset/0' }}
+                  imageContainerStyle={styles.tileImageContainerStyle}
+                  imageProps={{ resizeMode: 'cover' }}
                   title={v.name}
                   icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-                  contentContainerStyle={{ height: 80 }}
+                  contentContainerStyle={{ height: 70 }}
                 >
                 </Tile>
                 <WhiteSpace />
               </View>
             ))
           }
-          <Tile
-            imageSrc={{ uri: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3941897846,2741978728&fm=26&gp=0.jpg' }}
-            title="Lorem ipsum"
-            icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-            contentContainerStyle={{ height: 100 }}
-          >
-            <View
-              style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
-            >
-              <Text>Caption</Text>
-              <Text>Caption</Text>
-            </View>
-          </Tile>
         </ScrollView>
       </LayoutComponent>
     );
@@ -189,15 +145,18 @@ var styles = StyleSheet.create({
   },
   backgroundVideo: {
     flex: 1,
-    // position: 'absolute',
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
     width: 300,
     height: 200,
   },
-  scrollViewStyle: { 
+  scrollViewStyle: {
     flex: 1,
-  }
+  },
+  tileContainerStyle: {
+    backgroundColor: '#FFFFFF',
+  },
+  tileImageContainerStyle: {
+    backgroundColor: '#000000',
+    width: ScreenUtils.width,
+    height: ScreenUtils.width / 4 * 3,
+  },
 });
