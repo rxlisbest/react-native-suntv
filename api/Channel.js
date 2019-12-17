@@ -7,3 +7,7 @@ export function channelCreate(data) {
 export function channelIndex(params) {
   return get('channels/index', params)
 }
+
+export function channelView(id) {
+  return get('channels/view/' + id)
+}

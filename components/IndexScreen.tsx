@@ -127,6 +127,7 @@ export default class IndexScreen extends React.Component {
                   title={v.name}
                   icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
                   contentContainerStyle={{ height: 70 }}
+                  onPress={() => { this.props.navigation.navigate('ChannelView', { id: v.id }) }}
                 >
                 </Tile>
                 <WhiteSpace />
@@ -157,6 +158,6 @@ var styles = StyleSheet.create({
   tileImageContainerStyle: {
     backgroundColor: '#000000',
     width: ScreenUtils.width,
-    height: ScreenUtils.width / 4 * 3,
+    height: ScreenUtils.width / 16 * 9,
   },
 });

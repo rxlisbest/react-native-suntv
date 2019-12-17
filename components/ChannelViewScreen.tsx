@@ -1,0 +1,103 @@
+import React, {
+  Component,
+  PropTypes
+} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {
+  Button,
+  ThemeProvider
+} from 'react-native-elements'
+import {
+  Video
+} from 'expo-av';
+import {
+  Header
+} from 'react-native-elements';
+import {
+  ScreenOrientation
+} from 'expo'
+import { channelView } from '../api/Channel'
+import { Toast, Portal } from '@ant-design/react-native'
+import i18n from '../i18n'
+import ScreenUtils from '../utils/ScreenUtils'
+
+// ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
+
+_handleVideoRef = component => {
+  const playbackObject = component;
+  playbackObject.presentFullscreenPlayer()
+}
+
+export default class ChannelViewScreen extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  }
+
+  state = {
+    loading: false,
+    videoSrc: null,
+  }
+
+  componentWillMount() {
+    // ScreenOrientation.lockAsync (ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+    let { id } = this.props.navigation.state.params
+    this.channelView(id)
+  }
+
+  channelView = (id) => {
+    console.log(id)
+    if (!this.state.loading) {
+      this.setState({
+        loading: true
+      }, () => {
+        let loadingToastKey = Toast.loading(i18n.t('info.loading'))
+        channelView(id).then((response) => {
+          const videoSrc = response.file.domain + response.file.key
+          this.setState({ videoSrc: videoSrc, loading: false })
+          Portal.remove(loadingToastKey)
+        })
+      })
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header
+          containerStyle={{
+            backgroundColor: 'rgb(240, 161, 168)',
+            justifyContent: 'space-around',
+          }}
+          leftComponent={{ icon: 'chevron-left', color: '#fff', onPress: () => { this.props.navigation.goBack() } }}
+          centerComponent={{ text: '首页1', style: { color: '#fff' } }}
+          rightComponent={{ icon: 'home', color: '#fff', onPress: () => { this.props.navigation.navigate('Index') } }}
+        />
+        <Video
+          source={{ uri: this.state.videoSrc }}
+          ref={this._handleVideoRef}
+          rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="contain"
+          shouldPlay
+          isLooping
+          style={styles.backgroundVideo}
+          useNativeControls={true}
+        />
+      </View>
+    );
+  }
+}
+// Later on in your styles..
+var styles = StyleSheet.create({
+  backgroundVideo: {
+    backgroundColor: '#000000',
+    width: ScreenUtils.width,
+    height: ScreenUtils.width / 16 * 9,
+  },
+});
