@@ -76,7 +76,7 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
-          <List renderHeader={'基本'} style={{ marginTop: ScreenUtils.statusBarHeight }}>
+          <List renderHeader={'基本'}>
             <InputItem
               clear
               placeholder="点击下方按钮该输入框会获取光标"

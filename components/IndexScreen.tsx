@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   ScrollView,
   RefreshControl,
 } from 'react-native'
@@ -96,7 +97,7 @@ export default class IndexScreen extends React.Component {
 
   render() {
     return (
-      <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
+      <LayoutComponent navigation={this.props.navigation} selectedTab='index'>
         <ScrollView
           style={styles.scrollViewStyle}
           onMomentumScrollEnd={this._contentViewScroll}
@@ -126,10 +127,12 @@ export default class IndexScreen extends React.Component {
                   imageProps={{ resizeMode: 'cover' }}
                   title={v.name}
                   titleStyle={{ flexWrap: 'nowrap' }}
+                  titleNumberOfLines={1}
                   icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-                  contentContainerStyle={{ height: 70, flexWrap: 'nowrap' }}
+                  contentContainerStyle={{ height: 90, flexWrap: 'nowrap' }}
                   onPress={() => { this.props.navigation.navigate('ChannelView', { id: v.id }) }}
                 >
+                  <Text style={styles.tileTextStyle} numberOfLines={1}>{i18n.t('channelCreate.channelCategoryId')}：{v.channel_category.name}</Text>
                 </Tile>
                 <WhiteSpace />
               </View>
@@ -160,5 +163,9 @@ var styles = StyleSheet.create({
     backgroundColor: '#000000',
     width: ScreenUtils.width,
     height: ScreenUtils.width / 16 * 9,
+  },
+  tileTextStyle: {
+    color: '#999999',
+    flexWrap: 'nowrap',
   },
 });

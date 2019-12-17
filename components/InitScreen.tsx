@@ -24,7 +24,7 @@ class InitScreen extends React.Component {
     if(Platform.OS === "android") {
       BackHandler.addEventListener('hardwareBackPress', ()=>{
         this.setToken()
-      });
+      })
     }
     this.setToken()
   }

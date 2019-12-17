@@ -105,7 +105,7 @@ var styles = StyleSheet.create({
     paddingRight: 12,
     borderRadius: 30,
     borderColor: '#999999',
-    left: 0,
+    right: 0,
     top: 0,
     zIndex: 99,
   },

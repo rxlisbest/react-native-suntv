@@ -68,8 +68,6 @@ export default class ChannelCreateScreen extends FormComponent {
         return false
       }
     }
-    console.log(2)
-    console.log(this.state.videoSrc)
     return fileUpToken({ name: this.state.videoSrc }).then(response => {
       let formData = new FormData()
       formData.append('key', response.key)
@@ -87,21 +85,11 @@ export default class ChannelCreateScreen extends FormComponent {
             channel_category_id: this.state.channel_category_id[0] 
           }
           return channelCreate(channel).then(channelCreateResponse => {
-            console.log(fileCreateResponse)
+            this.props.navigation.navigate('ChannelView', {id: channelCreateResponse.id})
           })
         })
       })
     }).catch(error => {
-      console.log(error)
-      Toast.fail(error)
-    })
-    console.log(2)
-
-    return channelCreate({ "name": this.state.name, channel_category_id: this.state.channel_category_id[0] }).then(data => {
-      Toast.success("123")
-      console.log(4)
-    }).catch(error => {
-      console.log(3)
       Toast.fail(error)
     })
   }
@@ -110,7 +98,7 @@ export default class ChannelCreateScreen extends FormComponent {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
-          <List renderHeader={i18n.t('channelCreate.base')} style={{ marginTop: ScreenUtils.statusBarHeight }}>
+          <List renderHeader={i18n.t('channelCreate.base')}>
             <InputItem
               clear
               placeholder={i18n.t('input.placeholder')}
