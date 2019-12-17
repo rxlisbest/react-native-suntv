@@ -4,6 +4,8 @@ import {
   Text,
   View,
   AsyncStorage,
+  Platform,
+  BackHandler,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { change } from '../store/actionCreators'
@@ -14,8 +16,16 @@ class InitScreen extends React.Component {
     header: null
   }
 
-  componentWillMount() {
-    // ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE_LEFT)
+  state = {
+    subscription: undefined,
+  }
+
+  componentDidMount() {
+    if(Platform.OS === "android") {
+      BackHandler.addEventListener('hardwareBackPress', ()=>{
+        this.setToken()
+      });
+    }
     this.setToken()
   }
 
@@ -29,7 +39,6 @@ class InitScreen extends React.Component {
     } else {
       this.props.navigation.navigate('PasswordLogin')
     }
-    
   }
 
   render() {

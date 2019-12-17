@@ -6,20 +6,13 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import {
-  Button,
-  ThemeProvider
-} from 'react-native-elements'
+} from 'react-native'
 import {
   Video
-} from 'expo-av';
+} from 'expo-av'
 import {
   Header
-} from 'react-native-elements';
-import {
-  ScreenOrientation
-} from 'expo'
+} from 'react-native-elements'
 import { channelView } from '../api/Channel'
 import { Toast, Portal } from '@ant-design/react-native'
 import i18n from '../i18n'
@@ -41,6 +34,7 @@ export default class ChannelViewScreen extends React.Component {
   state = {
     loading: false,
     videoSrc: null,
+    name: '',
   }
 
   componentWillMount() {
@@ -58,7 +52,7 @@ export default class ChannelViewScreen extends React.Component {
         let loadingToastKey = Toast.loading(i18n.t('info.loading'))
         channelView(id).then((response) => {
           const videoSrc = response.file.domain + response.file.key
-          this.setState({ videoSrc: videoSrc, loading: false })
+          this.setState({ videoSrc: videoSrc, name: response.name, loading: false })
           Portal.remove(loadingToastKey)
         })
       })
@@ -74,7 +68,7 @@ export default class ChannelViewScreen extends React.Component {
             justifyContent: 'space-around',
           }}
           leftComponent={{ icon: 'chevron-left', color: '#fff', onPress: () => { this.props.navigation.goBack() } }}
-          centerComponent={{ text: '首页1', style: { color: '#fff' } }}
+          centerComponent={{ text: this.state.name, style: { color: '#fff' } }}
           rightComponent={{ icon: 'home', color: '#fff', onPress: () => { this.props.navigation.navigate('Index') } }}
         />
         <Video
@@ -100,4 +94,4 @@ var styles = StyleSheet.create({
     width: ScreenUtils.width,
     height: ScreenUtils.width / 16 * 9,
   },
-});
+})

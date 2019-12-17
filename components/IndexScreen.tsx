@@ -125,8 +125,9 @@ export default class IndexScreen extends React.Component {
                   imageContainerStyle={styles.tileImageContainerStyle}
                   imageProps={{ resizeMode: 'cover' }}
                   title={v.name}
+                  titleStyle={{ flexWrap: 'nowrap' }}
                   icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
-                  contentContainerStyle={{ height: 70 }}
+                  contentContainerStyle={{ height: 70, flexWrap: 'nowrap' }}
                   onPress={() => { this.props.navigation.navigate('ChannelView', { id: v.id }) }}
                 >
                 </Tile>
