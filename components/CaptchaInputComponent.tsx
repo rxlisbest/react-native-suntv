@@ -1,15 +1,7 @@
 import React from 'react'
 import { Button } from 'react-native-elements'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-
-// Later on in your styles..
-var styles = StyleSheet.create({
-  codeButton: {
-    width: 110,
-    height: 40,
-  }
-})
+import { CaptchaInputComponentStyle as styles } from '../css/default'
 
 export default class CaptchaInputComponent extends React.Component {
 

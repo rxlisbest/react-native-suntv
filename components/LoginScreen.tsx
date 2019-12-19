@@ -1,9 +1,7 @@
 import React from 'react'
 import {
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
 } from 'react-native'
 import {
@@ -14,14 +12,12 @@ import {
 import i18n from '../i18n'
 import Toast from 'react-native-root-toast'
 import FormComponent from './FormComponent'
-
-const { width, height } = Dimensions.get('window') // 页面宽度和高度
-const formWidth = width / 4 * 3 // 表单宽度
 import { create } from '../api/Sms'
 import { usersLogin } from '../api/Users'
 import { AsyncStorage } from 'react-native'
 import CountDownButtonComponent from './CountDownButtonComponent'
 import { Flex } from '@ant-design/react-native'
+import { LoginScreenStyle as styles } from '../css/default'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Please provide a valid email address.' : undefined;
@@ -261,80 +257,3 @@ export default class LoginScreen extends FormComponent {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgb(240, 161, 168)',
-    flex: 1,
-  },
-  containerBackground: {
-    flex: 1,
-    //宽高为 null 屏幕自适应
-    width: null,
-    height: null,
-    paddingTop: height / 4,
-  },
-  cellphone: {
-    marginBottom: 20,
-  },
-  captcha: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  captchaInput: {
-    width: formWidth - 121
-  },
-  captchaImage: {
-    width: 110,
-    height: 40,
-  },
-  form: {
-    width: formWidth,
-    alignSelf: 'center',
-  },
-  code: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  codeInput: {
-    width: formWidth - 121,
-  },
-  codeButton: {
-    width: 110,
-    height: 40,
-  },
-  formButton: {
-    alignSelf: 'center',
-    width: formWidth - 20,
-    marginTop: 5,
-  },
-  formButtonTitleStyle: {
-    fontSize: 25,
-  },
-  copyright: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: 10
-  },
-  copyrightText: {
-    alignSelf: "center",
-    fontSize: 18,
-    // color: '#FFFFFF',
-  },
-  register: {
-    marginTop: 20,
-  },
-  registerText: {
-    fontSize: 16,
-    alignSelf: "flex-end",
-    marginRight: 10,
-    color: "#2089dc",
-  },
-  passwordLoginText: {
-    paddingLeft: 10,
-    fontSize: 16,
-    alignSelf: "flex-start",
-    marginRight: 10,
-    color: "#2089dc",
-  },
-});

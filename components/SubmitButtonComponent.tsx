@@ -1,16 +1,8 @@
 import React from 'react'
 import { Button } from '@ant-design/react-native'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import i18n from '../i18n'
-
-// Later on in your styles..
-var styles = StyleSheet.create({
-  codeButton: {
-    width: 110,
-    height: 40,
-  }
-})
+import { SubmitButtonComponentStyle as styles } from '../css/default'
 
 export default class SubmitButtonComponent extends React.Component {
 
@@ -23,7 +15,7 @@ export default class SubmitButtonComponent extends React.Component {
 
   static defaultProps = {
     type: 'primary',
-    buttonStyle: styles.codeButton,
+    buttonStyle: styles.buttonStyle,
     title: '',
     onPress: () => { },
   }
@@ -45,7 +37,7 @@ export default class SubmitButtonComponent extends React.Component {
     return (
       <Button
         type={this.props.type}
-        buttonStyle={this.props.buttonStyle}
+        style={this.props.buttonStyle}
         onPress={() => this.onPress()}
         disabled={this.state.disabled}
         loading={this.state.disabled}

@@ -1,17 +1,14 @@
 import React from 'react'
-import { StyleSheet, Image, View, Text } from 'react-native'
+import {
+  View,
+  Text,
+} from 'react-native'
 import PropTypes from 'prop-types'
 import TabNavigator from 'react-native-tab-navigator'
 import i18n from '../i18n'
 
 import { Icon } from 'react-native-elements'
-
-// Later on in your styles..
-var styles = StyleSheet.create({
-  selectedStyle: {
-    color: 'rgb(240, 161, 168)',
-  }
-})
+import { TabNavigatorComponentStyle as styles } from '../css/default'
 
 export default class TabNavigatorComponent extends React.Component {
   // constructor(props) {
@@ -94,9 +91,10 @@ export default class TabNavigatorComponent extends React.Component {
             />}
             selectedTitleStyle={styles.selectedStyle}
             badgeText="1"
+            badgeStyle={{ color: 'red' }}
             onPress={() => this.onPress('User')}
           >
-            <View style={{height: 0}}>
+            <View style={{ height: 0 }}>
               <Text>{i18n.t('tabNavigator.user')}</Text>
             </View>
           </TabNavigator.Item>

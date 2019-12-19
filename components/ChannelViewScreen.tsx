@@ -1,11 +1,6 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+  View
 } from 'react-native'
 import {
   Video
@@ -16,7 +11,7 @@ import {
 import { channelView } from '../api/Channel'
 import { Toast, Portal } from '@ant-design/react-native'
 import i18n from '../i18n'
-import ScreenUtils from '../utils/ScreenUtils'
+import { ChannelViewScreenStyle as styles } from '../css/default'
 
 // ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
@@ -87,11 +82,3 @@ export default class ChannelViewScreen extends React.Component {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  backgroundVideo: {
-    backgroundColor: '#000000',
-    width: ScreenUtils.width,
-    height: ScreenUtils.width / 16 * 9,
-  },
-})

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   ScrollView,
@@ -8,10 +7,10 @@ import {
 } from 'react-native'
 import { Tile } from 'react-native-elements'
 import i18n from '../i18n'
-import ScreenUtils from '../utils/ScreenUtils'
 import LayoutComponent from './LayoutComponent'
 import { WhiteSpace, Toast, Portal } from '@ant-design/react-native'
-import { channelIndex } from '../api/Channel'
+import { channelFamilyIndex } from '../api/Channel'
+import { IndexScreenStyle as styles } from '../css/default'
 
 export default class IndexScreen extends React.Component {
 
@@ -63,7 +62,7 @@ export default class IndexScreen extends React.Component {
         if (loadingToast) {
           loadingToastKey = Toast.loading(i18n.t('info.loading'))
         }
-        channelIndex({ pageNum: this.state.channelData.pageNum }).then((response) => {
+        channelFamilyIndex({ pageNum: this.state.channelData.pageNum }).then((response) => {
           if (this.state.channelData.pageNum == response.pageNum) {
             let channelDataList = this.state.channelData.list
             let responseList = response.list
@@ -143,29 +142,4 @@ export default class IndexScreen extends React.Component {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  container: {
-    height: ScreenUtils.fullHeight,
-  },
-  backgroundVideo: {
-    flex: 1,
-    width: 300,
-    height: 200,
-  },
-  scrollViewStyle: {
-    flex: 1,
-  },
-  tileContainerStyle: {
-    backgroundColor: '#FFFFFF',
-  },
-  tileImageContainerStyle: {
-    backgroundColor: '#000000',
-    width: ScreenUtils.width,
-    height: ScreenUtils.width / 16 * 9,
-  },
-  tileTextStyle: {
-    color: '#999999',
-    flexWrap: 'nowrap',
-  },
-});
+

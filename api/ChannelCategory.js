@@ -7,3 +7,7 @@ export function channelCategoryCreate(data) {
 export function channelCategoryAll(){
   return get('channel-categories/all')
 }
+
+export function channelCategoryFamilyAll(params) {
+  return get('channel-categories/family-all', params)
+}

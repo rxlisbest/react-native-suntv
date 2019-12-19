@@ -10,9 +10,8 @@ import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
 import VideoPickerComponent from './VideoPickerComponent'
 import { List, Picker, InputItem, WhiteSpace, Toast } from '@ant-design/react-native'
-import ScreenUtils from '../utils/ScreenUtils'
 import SubmitButtonComponent from './SubmitButtonComponent'
-import { channelCategoryAll } from '../api/ChannelCategory'
+import { channelCategoryFamilyAll } from '../api/ChannelCategory'
 import { channelCreate } from '../api/Channel'
 import { fileUpToken, fileUpload, fileCreate } from '../api/File'
 import FormComponent from './FormComponent'
@@ -39,7 +38,7 @@ export default class ChannelCreateScreen extends FormComponent {
   }
 
   onChannelCategoryPress = async () => {
-    let data = await channelCategoryAll()
+    let data = await channelCategoryFamilyAll()
     let channel_category = []
     for (let v of data) {
       channel_category.push({ value: v.id, label: v.name })
@@ -132,16 +131,3 @@ export default class ChannelCreateScreen extends FormComponent {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  avatarContainer: {
-    backgroundColor: 'rgb(240, 161, 168)',
-    paddingTop: 40,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    flexDirection: 'row',
-  },
-  list: {
-    marginTop: 10,
-  }
-});

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   ScrollView,
@@ -18,7 +17,7 @@ import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
 import { Flex, Button, WhiteSpace } from '@ant-design/react-native'
 import ScreenUtils from '../utils/ScreenUtils'
-// ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
+import { UserScreenStyle as styles } from '../css/default'
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -142,40 +141,3 @@ export default class UserScreen extends React.Component {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  avatarContainer: {
-    backgroundColor: 'rgb(240, 161, 168)',
-    paddingTop: 40,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
-  list: {
-    // marginTop: 10,
-  },
-  createFlex: {
-    height: ScreenUtils.width / 3,
-    backgroundColor: '#FFFFFF',
-    color: '#999999',
-  },
-  createFlexText: {
-    // color: '#999999',
-  },
-  createFlexItem: {
-    marginBottom: ScreenUtils.width / 18,
-  },
-  changeFamilyButton: {
-    borderColor: '#FFFFFF',
-    color: '#FFFFFF',
-    borderRadius: 10,
-  },
-  changeFamilyButtonText: {
-    color: '#FFFFFF',
-  },
-  nameFlexItem: {
-    marginBottom: 25,
-  },
-  nameFlexItemText: {
-    fontSize: 15,
-  },
-});

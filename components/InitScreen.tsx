@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { change } from '../store/actionCreators'
+import { InitScreenStyle as styles } from '../css/default'
 
 class InitScreen extends React.Component {
 
@@ -17,19 +18,27 @@ class InitScreen extends React.Component {
   }
 
   state = {
-    subscription: undefined,
+    subScription: undefined,
   }
 
-  componentDidMount() {
-    if(Platform.OS === "android") {
-      BackHandler.addEventListener('hardwareBackPress', ()=>{
-        this.setToken()
-      })
+  componentWillMount = () => {
+    if (Platform.OS === "android") {
+      BackHandler.addEventListener('hardwareBackPress', this.hardwareBackPress)
     }
     this.setToken()
   }
 
-  async setToken() {
+  componentWillUnmount = () => {
+    BackHandler.removeEventListener('hardwareBackPress', this.hardwareBackPress)
+  }
+
+  hardwareBackPress = () => {
+    if (this.props.navigation.state.routeName == 'Init') {
+      this.setToken()
+    }
+  }
+
+  setToken = async () => {
     let token = await AsyncStorage.getItem('token')
     if (token != null) {
       this.props.changeData(token)
@@ -49,11 +58,6 @@ class InitScreen extends React.Component {
     );
   }
 }
-// Later on in your styles..
-var styles = StyleSheet.create({
-  container: {
-  },
-})
 
 const mapState = state => ({
   token: state.token

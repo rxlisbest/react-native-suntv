@@ -11,3 +11,7 @@ export function channelIndex(params) {
 export function channelView(id) {
   return get('channels/view/' + id)
 }
+
+export function channelFamilyIndex(params) {
+  return get('channels/family-index', params)
+}

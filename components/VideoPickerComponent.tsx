@@ -7,6 +7,7 @@ import { Video } from 'expo-av'
 import ScreenUtils from '../utils/ScreenUtils'
 import { Button, Icon } from '@ant-design/react-native'
 import PropTypes from 'prop-types'
+import { VideoPickerComponentStyle as styles } from '../css/default'
 
 _handleVideoRef = component => {
   const playbackObject = component;
@@ -93,29 +94,3 @@ export default class VideoPickerComponent extends React.Component {
     }
   };
 }
-var styles = StyleSheet.create({
-  backgroundVideo: {
-    width: ScreenUtils.width,
-    height: ScreenUtils.width / 4 * 3,
-    backgroundColor: '#000000'
-  },
-  closeButton: {
-    position: 'absolute',
-    paddingLeft: 12,
-    paddingRight: 12,
-    borderRadius: 30,
-    borderColor: '#999999',
-    right: 0,
-    top: 0,
-    zIndex: 99,
-  },
-  pickVideo: {
-    width: ScreenUtils.width,
-    height: ScreenUtils.width / 4 * 3,
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  pickVideoIcon: {
-  },
-});
