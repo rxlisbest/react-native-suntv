@@ -19,23 +19,21 @@ import { Flex, Button, WhiteSpace } from '@ant-design/react-native'
 import ScreenUtils from '../utils/ScreenUtils'
 import { UserScreenStyle as styles } from '../css/default'
 
-_handleVideoRef = component => {
-  const playbackObject = component;
-  playbackObject.presentFullscreenPlayer()
-}
-
 const list = [
   {
     title: i18n.t('user.family'),
-    icon: 'people'
+    icon: 'people',
+    screen: 'Family',
   },
   {
     title: i18n.t('user.category'),
-    icon: 'apps'
+    icon: 'apps',
+    screen: 'ChannelCategory',
   },
   {
     title: i18n.t('user.channel'),
-    icon: 'videocam'
+    icon: 'videocam',
+    screen: 'Channel',
   }
 ]
 
@@ -125,13 +123,14 @@ export default class UserScreen extends React.Component {
           <WhiteSpace />
           <View style={styles.list}>
             {
-              list.map((item, i) => (
+              list.map((v, i) => (
                 <ListItem
                   key={i}
-                  title={item.title}
-                  leftIcon={{ name: item.icon }}
+                  title={v.title}
+                  leftIcon={{ name: v.icon }}
                   bottomDivider
                   chevron
+                  onPress={() => { this.props.navigation.navigate(v.screen) }}
                 />
               ))
             }

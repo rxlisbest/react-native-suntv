@@ -4,22 +4,45 @@ import {
 } from 'react-native'
 import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
-import { List, InputItem, Toast, WhiteSpace } from '@ant-design/react-native'
-import { channelCategoryCreate } from '../api/ChannelCategory'
+import { List, InputItem, Toast, WhiteSpace, Portal } from '@ant-design/react-native'
+import { channelCategoryView, channelCategoryUpdate } from '../api/ChannelCategory'
 import SubmitButtonComponent from './SubmitButtonComponent'
 import FormComponent from './FormComponent'
 
-export default class ChannelCategoryCreateScreen extends FormComponent {
+export default class ChannelCategoryUpdateScreen extends FormComponent {
 
   static navigationOptions = {
     header: null
   }
 
   state = {
-    name: '',
+    loading: false,
+    data: {
+      id: 0,
+      name: '',
+    },
   }
 
-  componentDitMount() {
+  componentDidMount() {
+    let { id } = this.props.navigation.state.params
+    this.setState({ ...this.state.data, id })
+    this.getInfo(id)
+  }
+
+  getInfo = (id) => {
+    if (!this.state.loading) {
+      this.setState({
+        loading: true
+      }, () => {
+        let loadingToastKey
+        loadingToastKey = Toast.loading(i18n.t('info.loading'))
+        channelCategoryView(id).then((response) => {
+          console.log(response)
+          this.setState({ data: response, loading: false })
+          Portal.remove(loadingToastKey)
+        })
+      })
+    }
   }
 
   onPress = () => {
@@ -27,7 +50,7 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
       name: { required: true, notnull: true },
     })
     let fields = [
-      { field: 'name', fieldName: i18n.t('channelCategoryCreate.name') },
+      { field: 'data.name', fieldName: i18n.t('channelCategoryCreate.name') },
     ]
     for (let v of fields) {
       if (this.isFieldInError(v.field)) {
@@ -36,8 +59,9 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
       }
     }
 
-    return channelCategoryCreate({ "name": this.state.name }).then(data => {
-      Toast.success(i18n.t('channelCategoryCreate.name'), 0.5, () => {
+    console.log(this.state.data.id, this.state.data)
+    return channelCategoryUpdate(this.state.data.id, this.state.data).then(data => {
+      Toast.success(i18n.t('success.update'), 0.5, () => {
         this.props.navigation.navigate('ChannelCategory')
       })
     }).catch(error => {
@@ -54,8 +78,8 @@ export default class ChannelCategoryCreateScreen extends FormComponent {
               clear
               placeholder={i18n.t('input.placeholder')}
               ref={el => (this.inputRef = el)}
-              onChange={(name) => this.setState({ name })}
-              value={this.state.name}
+              onChange={(name) => this.setState({ data: { ...this.state.data, name } })}
+              value={this.state.data.name}
             >
               {i18n.t('channelCategoryCreate.name')}
             </InputItem>

@@ -16,6 +16,8 @@ import PasswordLoginScreen from '../components/PasswordLoginScreen'
 import InitScreen from '../components/InitScreen'
 import ChannelViewScreen from '../components/ChannelViewScreen'
 import ChannelScreen from '../components/ChannelScreen'
+import ChannelCategoryScreen from '../components/ChannelCategoryScreen'
+import ChannelCategoryUpdateScreen from '../components/ChannelCategoryUpdateScreen'
 
 const AppNavigator = createStackNavigator({
   View: ViewScreen,
@@ -29,6 +31,8 @@ const AppNavigator = createStackNavigator({
   Init: InitScreen,
   ChannelView: ChannelViewScreen,
   Channel: ChannelScreen,
+  ChannelCategory: ChannelCategoryScreen,
+  ChannelCategoryUpdate: ChannelCategoryUpdateScreen,
 }, {
   initialRouteName: 'Init',
 });

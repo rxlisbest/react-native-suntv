@@ -20,6 +20,10 @@ export default {
   error: {
     network: '网络错误'
   },
+  success: {
+    create: '操作成功',
+    update: '操作成功',
+  },
   info: {
     noMore: '没有更多数据',
     loading: '加载中...',
@@ -66,8 +70,9 @@ export default {
     register: '注册账号',
     login: '短信登录',
   },
-  channelCategory: {
+  channelCategoryCreate: {
     name: '名称',
+    base: '基本信息',
   },
   channelCreate: {
     name: '名称',

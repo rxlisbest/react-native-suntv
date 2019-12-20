@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  StyleSheet,
   Text,
   View,
   AsyncStorage,
@@ -22,14 +21,14 @@ class InitScreen extends React.Component {
   }
 
   componentWillMount = () => {
-    if (Platform.OS === "android") {
-      BackHandler.addEventListener('hardwareBackPress', this.hardwareBackPress)
-    }
+    // if (Platform.OS === "android") {
+    //   BackHandler.addEventListener('hardwareBackPress', this.hardwareBackPress)
+    // }
     this.setToken()
   }
 
   componentWillUnmount = () => {
-    BackHandler.removeEventListener('hardwareBackPress', this.hardwareBackPress)
+    // BackHandler.removeEventListener('hardwareBackPress', this.hardwareBackPress)
   }
 
   hardwareBackPress = () => {
@@ -43,7 +42,7 @@ class InitScreen extends React.Component {
     if (token != null) {
       this.props.changeData(token)
       setTimeout(() => {
-        this.props.navigation.navigate('Index')
+        this.props.navigation.navigate('ChannelCategory')
       }, 1000)
     } else {
       this.props.navigation.navigate('PasswordLogin')

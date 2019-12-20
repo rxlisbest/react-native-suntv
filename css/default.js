@@ -420,3 +420,14 @@ export const VideoPickerComponentStyle = StyleSheet.create({
   pickVideoIcon: {
   },
 })
+
+// ChannelCategoryCreateScreenStyle
+export const ChannelCategoryCreateScreenStyle = StyleSheet.create({
+})
+
+// ChannelCategoryScreenStyle
+export const ChannelCategoryScreenStyle = StyleSheet.create({
+  scrollViewStyle: {
+    flex: 1,
+  },
+})

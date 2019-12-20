@@ -63,6 +63,10 @@ export function post(url, data, domain) {
   return request('POST', url, data, domain)
 }
 
+export function put(url, data, domain) {
+  return request('PUT', url, data, domain)
+}
+
 export function get(url, params, domain) {
   if (params) {
     let paramsArray = [];
