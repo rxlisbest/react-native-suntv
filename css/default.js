@@ -29,18 +29,27 @@ export const CaptchaInputComponentStyle = StyleSheet.create({
 
 // ChannelScreenStyle
 export const ChannelScreenStyle = StyleSheet.create({
-  container: {
-    height: ScreenUtils.fullHeight,
-  },
-  backgroundVideo: {
+  scrollViewStyle: {
     flex: 1,
-    // position: 'absolute',
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
-    width: 300,
-    height: 200,
+  },
+  cardBodyStyle: {
+    paddingTop: 0,
+  },
+  cardBodyImageStyle: {
+    backgroundColor: '#000000',
+    width: ScreenUtils.width,
+    height: ScreenUtils.width / 16 * 9,
+    marginTop: 0,
+  },
+  cardFooterEditButtonStyle: {
+    width: ScreenUtils.width / 3,
+    height: ScreenUtils.width / 12,
+    alignSelf: 'flex-end',
+  },
+  cardFooterDeleteButtonStyle: {
+    width: ScreenUtils.width / 3,
+    height: ScreenUtils.width / 12,
+    alignSelf: 'flex-start',
   },
 })
 

@@ -59,7 +59,6 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
       }
     }
 
-    console.log(this.state.data.id, this.state.data)
     return channelCategoryUpdate(this.state.data.id, this.state.data).then(data => {
       Toast.success(i18n.t('success.update'), 0.5, () => {
         this.props.navigation.navigate('ChannelCategory')

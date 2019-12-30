@@ -13,6 +13,8 @@ export default {
   button: {
     loading: '提交中...',
     submit: '提交',
+    delete: '删除',
+    edit: '编辑',
   },
   input: {
     placeholder: '请输入'
