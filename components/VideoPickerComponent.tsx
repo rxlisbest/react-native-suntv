@@ -15,18 +15,28 @@ _handleVideoRef = component => {
 }
 
 export default class VideoPickerComponent extends React.Component {
-
+  constructor(props) {
+    super(props);
+  }
   static propProps = {
     onChange: PropTypes.func.isRequired,
+    videoSrc: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    onChange: () => {},
+    onChange: () => { },
+    videoSrc: null,
   }
 
   state = {
     videoSrc: null,
-  };
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.videoSrc != this.state.videoSrc) {
+      this.setState({ videoSrc: nextProps.videoSrc })
+    }
+  }
 
   render() {
     let { videoSrc } = this.state
@@ -68,6 +78,7 @@ export default class VideoPickerComponent extends React.Component {
 
   _resetVideo = () => {
     this.setState({ videoSrc: null })
+    this.props.onChange(null)
   }
 
   getPermissionAsync = async () => {

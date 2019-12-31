@@ -20,17 +20,20 @@ export default class ChannelUpdateScreen extends FormComponent {
 
   state = {
     loading: false,
+    channel_category: [],
     data: {
+      id: 0,
       name: '',
-      channel_category: [],
       channel_category_id: undefined,
-      videoSrc: '',
+      channel_category: {},
+      videoSrc: null,
+      file_id: 0,
     }
   }
 
-  componentDitMount() {
+  componentWillMount() {
     let { id } = this.props.navigation.state.params
-    this.setState({ ...this.state.data, id })
+    this.setState({ data: { ...this.state.data, id } })
     this.getInfo(id)
   }
 
@@ -42,7 +45,7 @@ export default class ChannelUpdateScreen extends FormComponent {
         let loadingToastKey
         loadingToastKey = Toast.loading(i18n.t('info.loading'))
         channelView(id).then((response) => {
-          this.setState({ data: response, loading: false })
+          this.setState({ data: { id: response.id, name: response.name, channel_category_id: response.channel_category_id, channel_category: response.channel_category, videoSrc: response.file.domain + response.file.key, file_id: response.file_id }, loading: false })
           Portal.remove(loadingToastKey)
         })
       })
@@ -50,7 +53,7 @@ export default class ChannelUpdateScreen extends FormComponent {
   }
 
   setVideoSrc = (videoSrc) => {
-    this.setState({ videoSrc })
+    this.setState({ data: { ...this.state.data, videoSrc, file_id: 0 } })
   }
 
   onChannelCategoryPress = async () => {
@@ -63,7 +66,7 @@ export default class ChannelUpdateScreen extends FormComponent {
   }
 
   onChannelCategoryChange = (value) => {
-    this.setState({ channel_category_id: value });
+    this.setState({ data: { ...this.state.data, channel_category_id: value[0] } });
   }
 
   onSubmit = () => {
@@ -83,30 +86,37 @@ export default class ChannelUpdateScreen extends FormComponent {
         return false
       }
     }
-    return fileUpToken({ name: this.state.videoSrc }).then(response => {
-      let formData = new FormData()
-      formData.append('key', response.key)
-      formData.append('token', response.upToken)
-      formData.append('file', { uri: this.state.videoSrc, type: 'multipart/form-data' })
-      return fileUpload(formData).then(fileUploadResponse => {
-        let file = {
-          key: fileUploadResponse.key,
-          transcoding_code: fileUploadResponse.persistentId,
-        }
-        return fileCreate(file).then(fileCreateResponse => {
-          let channel = {
-            file_id: fileCreateResponse.id,
-            name: this.state.name,
-            channel_category_id: this.state.channel_category_id[0]
+    if (this.state.data.file_id == 0) {
+      return fileUpToken({ name: this.state.data.videoSrc }).then(response => {
+        let formData = new FormData()
+        formData.append('key', response.key)
+        formData.append('token', response.upToken)
+        formData.append('file', { uri: this.state.data.videoSrc, type: 'multipart/form-data' })
+        return fileUpload(formData).then(fileUploadResponse => {
+          let file = {
+            key: fileUploadResponse.key,
+            transcoding_code: fileUploadResponse.persistentId,
           }
-          return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
-            this.props.navigation.navigate('Channel')
+          return fileCreate(file).then(fileCreateResponse => {
+            let channel = {
+              file_id: fileCreateResponse.id,
+              name: this.state.name,
+              channel_category_id: this.state.channel_category_id[0]
+            }
+            return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
+              this.props.navigation.navigate('Channel')
+            })
           })
         })
+      }).catch(error => {
+        Toast.fail(error)
       })
-    }).catch(error => {
-      Toast.fail(error)
-    })
+    } else {
+      return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
+        console.log(channelUpdateResponse)
+        this.props.navigation.navigate('Channel')
+      })
+    }
   }
 
   render() {
@@ -118,27 +128,28 @@ export default class ChannelUpdateScreen extends FormComponent {
               clear
               placeholder={i18n.t('input.placeholder')}
               ref={el => (this.inputRef = el)}
-              onChange={(name) => this.setState({ name })}
-              value={this.state.name}
+              onChange={(name) => this.setState({ data: { ...this.state.data, name } })}
+              value={this.state.data.name}
             >
               {i18n.t('channelCreate.name')}
             </InputItem>
             <Picker
               data={this.state.channel_category}
               cols={1}
-              value={this.state.channel_category_id}
+              value={[this.state.data.channel_category_id]}
               onChange={this.onChannelCategoryChange}
             >
               <List.Item
                 arrow="horizontal"
                 onPress={this.onChannelCategoryPress}
+              // extra={this.state.data.channel_category.name}
               >
                 {i18n.t('channelCreate.channelCategoryId')}
               </List.Item>
             </Picker>
           </List>
           <List renderHeader={i18n.t('channelCreate.file')}>
-            <VideoPickerComponent onChange={this.setVideoSrc}></VideoPickerComponent>
+            <VideoPickerComponent onChange={this.setVideoSrc} videoSrc={this.state.data.videoSrc}></VideoPickerComponent>
           </List>
           <WhiteSpace />
           <SubmitButtonComponent onPress={() => { return this.onSubmit() }}>{i18n.t('button.submit')}</SubmitButtonComponent>

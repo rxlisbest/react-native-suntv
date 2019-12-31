@@ -158,7 +158,7 @@ export default class ChannelScreen extends React.Component {
                         type="primary"
                         size="small"
                         style={styles.cardFooterEditButtonStyle}
-                        onPress={() => {}}
+                        onPress={() => this.props.navigation.navigate('ChannelUpdate', {id: v.id})}
                       >
                         {i18n.t('button.edit')}
                       </Button>

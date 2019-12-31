@@ -1,4 +1,4 @@
-import { get, post } from './Request'
+import { get, post, put } from './Request'
 
 export function channelCreate(data) {
   return post('channels/create', data)
@@ -14,4 +14,9 @@ export function channelView(id) {
 
 export function channelFamilyIndex(params) {
   return get('channels/family-index', params)
+}
+
+export function channelUpdate(id, data) {
+  console.log(data)
+  return put('channels/update/' + id, data)
 }
