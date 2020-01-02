@@ -10,11 +10,19 @@ export default {
     confirm: '{1}必须与{2}相同',
     notnull: '是必需的',
   },
+  alert: {
+    delete: '确定要删除这条记录?',
+  },
+  title: {
+    alert: '提示',
+  },
   button: {
     loading: '提交中...',
     submit: '提交',
     delete: '删除',
     edit: '编辑',
+    cancel: '取消',
+    confirm: '确定',
   },
   input: {
     placeholder: '请输入'

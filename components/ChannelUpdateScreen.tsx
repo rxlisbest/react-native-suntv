@@ -100,7 +100,7 @@ export default class ChannelUpdateScreen extends FormComponent {
           return fileCreate(file).then(fileCreateResponse => {
             this.setState({ data: { ...this.state.data, file_id: fileCreateResponse.id } })
             return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
-              this.props.navigation.navigate('Channel')
+              this.props.navigation.navigate('Channel', { refresh: () => self.initList() })
             })
           })
         })
@@ -109,7 +109,7 @@ export default class ChannelUpdateScreen extends FormComponent {
       })
     } else {
       return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
-        this.props.navigation.navigate('Channel')
+        this.props.navigation.navigate('Channel', { refresh: () => self.initList() })
       })
     }
   }

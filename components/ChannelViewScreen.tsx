@@ -39,7 +39,6 @@ export default class ChannelViewScreen extends React.Component {
   }
 
   channelView = (id) => {
-    console.log(id)
     if (!this.state.loading) {
       this.setState({
         loading: true

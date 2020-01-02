@@ -1,31 +1,22 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  Dimensions,
   ScrollView,
   RefreshControl,
   Image,
-} from 'react-native';
-import {
-  ThemeProvider
-} from 'react-native-elements'
-import { Video } from 'expo-av'
-import {
-  ScreenOrientation
-} from 'expo'
-import { Tile } from 'react-native-elements'
-import TabNavigatorComponent from './TabNavigatorComponent'
+} from 'react-native'
 import i18n from '../i18n'
-import ScreenUtils from '../utils/ScreenUtils'
-import store from '../store/index'
 import LayoutComponent from './LayoutComponent'
-import { Card, WhiteSpace, Toast, Portal, Button } from '@ant-design/react-native'
+import { Card, WhiteSpace, Toast, Portal, Button, Modal } from '@ant-design/react-native'
 import { ChannelScreenStyle as styles } from '../css/default'
-import { channelFamilyIndex } from '../api/Channel'
+import { channelFamilyIndex, channelDelete } from '../api/Channel'
 
 export default class ChannelScreen extends React.Component {
+
+  constructor(props) {
+    super(props)
+    console.log(2)
+  }
 
   static navigationOptions = {
     header: null
@@ -90,6 +81,21 @@ export default class ChannelScreen extends React.Component {
     }
   }
 
+  onDelete = (id) => {
+    Modal.alert(i18n.t('title.alert'), i18n.t('alert.delete'), [
+      {
+        text: i18n.t('button.cancel'),
+        onPress: () => { },
+        style: 'cancel',
+      },
+      {
+        text: i18n.t('button.confirm'), onPress: () => {
+          channelDelete(id)
+        }
+      },
+    ])
+  }
+
   _contentViewScroll = (e: Object) => {
     var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
     var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
@@ -148,7 +154,7 @@ export default class ChannelScreen extends React.Component {
                         type="warning"
                         size="small"
                         style={styles.cardFooterDeleteButtonStyle}
-                        onPress={() => {}}
+                        onPress={() => { this.onDelete(v.id) }}
                       >
                         {i18n.t('button.delete')}
                       </Button>
@@ -158,7 +164,7 @@ export default class ChannelScreen extends React.Component {
                         type="primary"
                         size="small"
                         style={styles.cardFooterEditButtonStyle}
-                        onPress={() => this.props.navigation.navigate('ChannelUpdate', {id: v.id})}
+                        onPress={() => this.props.navigation.navigate('ChannelUpdate', { id: v.id })}
                       >
                         {i18n.t('button.edit')}
                       </Button>

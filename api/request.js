@@ -67,6 +67,10 @@ export function put(url, data, domain) {
   return request('PUT', url, data, domain)
 }
 
+export function del(url, data, domain) {
+  return request('DELETE', url, data, domain)
+}
+
 export function get(url, params, domain) {
   if (params) {
     let paramsArray = [];
