@@ -25,7 +25,7 @@ export default class ChannelCreateScreen extends FormComponent {
     name: '',
     channel_category: [],
     channel_category_id: undefined,
-    videoSrc: '',
+    videoSrc: null,
   }
 
   componentDitMount() {
@@ -83,7 +83,8 @@ export default class ChannelCreateScreen extends FormComponent {
             channel_category_id: this.state.channel_category_id[0] 
           }
           return channelCreate(channel).then(channelCreateResponse => {
-            this.props.navigation.navigate('ChannelView', {id: channelCreateResponse.id})
+            // this.props.navigation.navigate('ChannelView', {id: channelCreateResponse.id})
+            this.props.navigation.navigate('Channel')
           })
         })
       })
@@ -121,7 +122,7 @@ export default class ChannelCreateScreen extends FormComponent {
             </Picker>
           </List>
           <List renderHeader={i18n.t('channelCreate.file')}>
-            <VideoPickerComponent onChange={this.setVideoSrc}></VideoPickerComponent>
+            <VideoPickerComponent onChange={this.setVideoSrc} videoSrc={this.state.videoSrc}></VideoPickerComponent>
           </List>
           <WhiteSpace />
           <SubmitButtonComponent onPress={() => { return this.onSubmit() }}>{i18n.t('button.submit')}</SubmitButtonComponent>

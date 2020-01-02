@@ -28,24 +28,20 @@ export default class VideoPickerComponent extends React.Component {
     videoSrc: null,
   }
 
-  state = {
-    videoSrc: null,
-  }
-
-  componentWillUpdate(nextProps) {
-    if (nextProps.videoSrc != this.state.videoSrc) {
-      this.setState({ videoSrc: nextProps.videoSrc })
-    }
-  }
+  // componentWillUpdate(nextProps) {
+  //   if (nextProps.videoSrc != this.state.videoSrc) {
+  //     this.setState({ videoSrc: nextProps.videoSrc })
+  //   }
+  // }
 
   render() {
-    let { videoSrc } = this.state
+    let { videoSrc } = this.props
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity style={Object.assign({ display: this.state.videoSrc !== null ? 'none' : 'flex' }, styles.pickVideo)} onPress={this._pickImage}>
+        <TouchableOpacity style={Object.assign({ display: videoSrc !== null ? 'none' : 'flex' }, styles.pickVideo)} onPress={this._pickImage}>
           <Icon name="cloud-upload" style={styles.pickVideoIcon} size={ScreenUtils.width / 2} />
         </TouchableOpacity>
-        <View style={{ display: this.state.videoSrc !== null ? 'flex' : 'none' }}>
+        <View style={{ display: videoSrc !== null ? 'flex' : 'none' }}>
           <Button
             type="ghost"
             onPressIn={this._resetVideo}
@@ -62,7 +58,7 @@ export default class VideoPickerComponent extends React.Component {
             resizeMode="contain"
             shouldPlay
             isLooping
-            style={Object.assign({ display: this.state.videoSrc !== null ? 'flex' : 'none' }, styles.backgroundVideo)}
+            style={Object.assign({ display: videoSrc !== null ? 'flex' : 'none' }, styles.backgroundVideo)}
             fullscreen={false}
             useNativeControls={false}
           >
@@ -98,9 +94,7 @@ export default class VideoPickerComponent extends React.Component {
       quality: 1
     });
 
-    // console.log(result)
     if (!result.cancelled) {
-      this.setState({ videoSrc: result.uri })
       this.props.onChange(result.uri)
     }
   };

@@ -98,11 +98,7 @@ export default class ChannelUpdateScreen extends FormComponent {
             transcoding_code: fileUploadResponse.persistentId,
           }
           return fileCreate(file).then(fileCreateResponse => {
-            let channel = {
-              file_id: fileCreateResponse.id,
-              name: this.state.name,
-              channel_category_id: this.state.channel_category_id[0]
-            }
+            this.setState({ data: { ...this.state.data, file_id: fileCreateResponse.id } })
             return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
               this.props.navigation.navigate('Channel')
             })
@@ -113,7 +109,6 @@ export default class ChannelUpdateScreen extends FormComponent {
       })
     } else {
       return channelUpdate(this.state.data.id, this.state.data).then(channelUpdateResponse => {
-        console.log(channelUpdateResponse)
         this.props.navigation.navigate('Channel')
       })
     }
