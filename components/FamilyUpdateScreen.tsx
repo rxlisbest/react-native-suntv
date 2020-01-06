@@ -5,11 +5,11 @@ import {
 import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
 import { List, InputItem, Toast, WhiteSpace, Portal, Button, Modal } from '@ant-design/react-native'
-import { channelCategoryView, channelCategoryUpdate, channelCategoryDelete } from '../api/ChannelCategory'
+import { familyView, familyUpdate, familyDelete } from '../api/Family'
 import SubmitButtonComponent from './SubmitButtonComponent'
 import FormComponent from './FormComponent'
 
-export default class ChannelCategoryUpdateScreen extends FormComponent {
+export default class FamilyUpdateScreen extends FormComponent {
 
   static navigationOptions = {
     header: null
@@ -36,7 +36,7 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
       }, () => {
         let loadingToastKey
         loadingToastKey = Toast.loading(i18n.t('info.loading'))
-        channelCategoryView(id).then((response) => {
+        familyView(id).then((response) => {
           this.setState({ data: response, loading: false })
           Portal.remove(loadingToastKey)
         })
@@ -54,8 +54,8 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
       },
       {
         text: i18n.t('button.confirm'), onPress: () => {
-          channelCategoryDelete(id).then(response => {
-            this.props.navigation.push('ChannelCategory')
+          familyDelete(id).then(response => {
+            this.props.navigation.push('Family')
           }).catch(error => {
             Toast.fail(error)
           })
@@ -69,7 +69,7 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
       name: { required: true, notnull: true },
     })
     let fields = [
-      { field: 'data.name', fieldName: i18n.t('channelCategoryCreate.name') },
+      { field: 'data.name', fieldName: i18n.t('familyCreate.name') },
     ]
     for (let v of fields) {
       if (this.isFieldInError(v.field)) {
@@ -78,9 +78,9 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
       }
     }
 
-    return channelCategoryUpdate(this.state.data.id, this.state.data).then(data => {
+    return familyUpdate(this.state.data.id, this.state.data).then(data => {
       Toast.success(i18n.t('success.update'), 0.5, () => {
-        this.props.navigation.push('ChannelCategory')
+        this.props.navigation.push('Family')
       })
     }).catch(error => {
       Toast.fail(error)
@@ -91,7 +91,7 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
     return (
       <LayoutComponent navigation={this.props.navigation} selectedTab='user'>
         <ScrollView>
-          <List renderHeader={i18n.t('channelCategoryCreate.base')}>
+          <List renderHeader={i18n.t('familyCreate.base')}>
             <InputItem
               clear
               placeholder={i18n.t('input.placeholder')}
@@ -99,7 +99,7 @@ export default class ChannelCategoryUpdateScreen extends FormComponent {
               onChange={(name) => this.setState({ data: { ...this.state.data, name } })}
               value={this.state.data.name}
             >
-              {i18n.t('channelCategoryCreate.name')}
+              {i18n.t('familyCreate.name')}
             </InputItem>
           </List>
           <WhiteSpace />

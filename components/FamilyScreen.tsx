@@ -1,21 +1,23 @@
-import React from 'react';
+import React from 'react'
 import {
+  Text,
   View,
   ScrollView,
   RefreshControl,
-  Image,
-} from 'react-native'
+} from 'react-native';
 import i18n from '../i18n'
 import LayoutComponent from './LayoutComponent'
-import { Card, WhiteSpace, Toast, Portal, Button, Modal } from '@ant-design/react-native'
-import { ChannelScreenStyle as styles } from '../css/default'
-import { channelFamilyIndex, channelDelete } from '../api/Channel'
+import {
+  Card,
+  WhiteSpace,
+  Toast,
+  Portal,
+  List,
+} from '@ant-design/react-native'
+import { FamilyScreenStyle as styles } from '../css/default'
+import { familyIndex } from '../api/Family'
 
-export default class ChannelScreen extends React.Component {
-
-  constructor(props) {
-    super(props)
-  }
+export default class FamilyScreen extends React.Component {
 
   static navigationOptions = {
     header: null
@@ -64,7 +66,7 @@ export default class ChannelScreen extends React.Component {
         if (loadingToast) {
           loadingToastKey = Toast.loading(i18n.t('info.loading'))
         }
-        channelFamilyIndex({ pageNum: this.state.data.pageNum, pageSize: 20 }).then((response) => {
+        familyIndex({ pageNum: this.state.data.pageNum, pageSize: 20 }).then((response) => {
           if (this.state.data.pageNum == response.pageNum) {
             this.setState({ data: { ...response, list: this.state.data.list.concat(response.list) }, loading: false })
           } else {
@@ -78,23 +80,6 @@ export default class ChannelScreen extends React.Component {
         })
       })
     }
-  }
-
-  onDelete = (id) => {
-    Modal.alert(i18n.t('title.alert'), i18n.t('alert.delete'), [
-      {
-        text: i18n.t('button.cancel'),
-        onPress: () => { },
-        style: 'cancel',
-      },
-      {
-        text: i18n.t('button.confirm'), onPress: () => {
-          channelDelete(id).then(response => {
-            this.props.navigation.push('Channel')
-          })
-        }
-      },
-    ])
   }
 
   _contentViewScroll = (e: Object) => {
@@ -131,51 +116,23 @@ export default class ChannelScreen extends React.Component {
             />
           }
         >
-          {
-            this.state.data.list.map((v, k) => (
-              <View>
-                <Card full>
-                  <Card.Header
-                    title={v.name}
-                    thumbStyle={{ width: 30, height: 30 }}
-                    // thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-                    extra={v.channel_category.name}
-                  />
-                  <Card.Body style={styles.cardBodyStyle}>
-                    <View style={styles.cardBodyImageStyle}>
-                      <Image
-                        source={{ uri: v.file.domain + v.file.key + '?vframe/jpg/offset/0' }}
-                        style={styles.cardBodyImageStyle}
-                      />
-                    </View>
-                  </Card.Body>
-                  <Card.Footer
-                    content={
-                      <Button
-                        type="warning"
-                        size="small"
-                        style={styles.cardFooterDeleteButtonStyle}
-                        onPress={() => { this.onDelete(v.id) }}
-                      >
-                        {i18n.t('button.delete')}
-                      </Button>
-                    }
-                    extra={
-                      <Button
-                        type="primary"
-                        size="small"
-                        style={styles.cardFooterEditButtonStyle}
-                        onPress={() => this.props.navigation.push('ChannelUpdate', { id: v.id })}
-                      >
-                        {i18n.t('button.edit')}
-                      </Button>
-                    }
-                  />
-                </Card>
-                <WhiteSpace />
-              </View>
-            ))
-          }
+          <List>
+            {
+              this.state.data.list.map((v, k) => (
+                <View>
+                  <List.Item
+                    multipleLine
+                    align="middle"
+                    arrow="horizontal"
+                    onPress={() => { this.props.navigation.push('FamilyUpdate', { id: v.id }) }}
+                  >
+                    {v.name}
+                  </List.Item>
+                  <WhiteSpace />
+                </View>
+              ))
+            }
+          </List>
         </ScrollView>
       </LayoutComponent>
     );

@@ -90,4 +90,8 @@ export default {
     base: '基本信息',
     file: '上传视频',
   },
+  familyCreate: {
+    name: '名称',
+    base: '基本信息',
+  },
 }

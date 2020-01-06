@@ -1,4 +1,4 @@
-import { get, post, put } from './Request'
+import { get, post, put, del } from './Request'
 
 export function channelCategoryCreate(data) {
   return post('channel-categories/create', data)
@@ -22,4 +22,8 @@ export function channelCategoryView(id) {
 
 export function channelCategoryUpdate(id, data) {
   return put('channel-categories/update/' + id, data)
+}
+
+export function channelCategoryDelete(id) {
+  return del('channel-categories/delete/' + id)
 }

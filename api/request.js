@@ -1,7 +1,7 @@
 import i18n from '../i18n'
 let apiDomain = process.env.API_DOMAIN
 let qiniuUploadDomain = process.env.QINIU_UPLOAD_DOMAIN
-apiDomain = 'http://172.16.14.53:6060/'
+apiDomain = 'http://172.16.16.87:6060/'
 qiniuUploadDomain = 'https://up-z1.qiniup.com/'
 console.log(apiDomain)
 console.log(qiniuUploadDomain)
@@ -43,6 +43,9 @@ async function request(method, url, data, domain) {
     if (response.status.toString().search(/20[0-9]/) >= 0) {
       switch (option.method) {
         case 'PUT':
+          response = response.text()
+          break;
+        case 'DELETE':
           response = response.text()
           break;
         default:

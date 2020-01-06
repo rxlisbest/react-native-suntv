@@ -108,7 +108,7 @@ export default class UserScreen extends React.Component {
               </TouchableOpacity>
             </Flex.Item>
             <Flex.Item style={{ paddingLeft: 4, paddingRight: 4 }}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('ChannelCreate')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('FamilyCreate')}>
                 <Flex direction="column">
                   <Flex.Item style={styles.createFlexItem}>
                     <Icon name="people" size={ScreenUtils.width / 9} />

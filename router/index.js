@@ -19,6 +19,9 @@ import ChannelScreen from '../components/ChannelScreen'
 import ChannelCategoryScreen from '../components/ChannelCategoryScreen'
 import ChannelCategoryUpdateScreen from '../components/ChannelCategoryUpdateScreen'
 import ChannelUpdateScreen from '../components/ChannelUpdateScreen'
+import FamilyScreen from '../components/FamilyScreen'
+import FamilyCreateScreen from '../components/FamilyCreateScreen'
+import FamilyUpdateScreen from '../components/FamilyUpdateScreen'
 
 const AppNavigator = createStackNavigator({
   View: ViewScreen,
@@ -35,6 +38,9 @@ const AppNavigator = createStackNavigator({
   ChannelCategory: ChannelCategoryScreen,
   ChannelCategoryUpdate: ChannelCategoryUpdateScreen,
   ChannelUpdate: ChannelUpdateScreen,
+  Family: FamilyScreen,
+  FamilyCreate: FamilyCreateScreen,
+  FamilyUpdate: FamilyUpdateScreen,
 }, {
   initialRouteName: 'Init',
 });

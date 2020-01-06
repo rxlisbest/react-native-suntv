@@ -11,6 +11,7 @@ import LayoutComponent from './LayoutComponent'
 import { WhiteSpace, Toast, Portal } from '@ant-design/react-native'
 import { channelFamilyIndex } from '../api/Channel'
 import { IndexScreenStyle as styles } from '../css/default'
+import EmptyComponent from './EmptyComponent'
 
 export default class IndexScreen extends React.Component {
 
@@ -137,6 +138,7 @@ export default class IndexScreen extends React.Component {
               </View>
             ))
           }
+          <EmptyComponent></EmptyComponent>
         </ScrollView>
       </LayoutComponent>
     );

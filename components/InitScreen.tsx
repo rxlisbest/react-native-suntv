@@ -42,7 +42,7 @@ class InitScreen extends React.Component {
     if (token != null) {
       this.props.changeData(token)
       setTimeout(() => {
-        this.props.navigation.navigate('Channel')
+        this.props.navigation.navigate('Index')
       }, 1000)
     } else {
       this.props.navigation.navigate('PasswordLogin')

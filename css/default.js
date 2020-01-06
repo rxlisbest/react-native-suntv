@@ -440,3 +440,21 @@ export const ChannelCategoryScreenStyle = StyleSheet.create({
     flex: 1,
   },
 })
+
+// FamilyCreateScreenStyle
+export const FamilyCreateScreenStyle = StyleSheet.create({
+})
+
+// FamilyScreenStyle
+export const FamilyScreenStyle = StyleSheet.create({
+  scrollViewStyle: {
+    flex: 1,
+  },
+})
+
+// EmptyComponentStyle
+export const EmptyComponentStyle = StyleSheet.create({
+  scrollViewStyle: {
+    flex: 1,
+  },
+})
